@@ -1,0 +1,79 @@
+- name: Playbook to configure ansible Controller post installation
+  hosts: controllers
+  # collections:
+  #   - ansible.controller
+  #   - redhat_cop.controller_configuration
+  pre_tasks:
+
+    - name: Include vars from configs directory
+      include_vars:
+        dir: "{{ controller_configs_dir | default((lookup('env','CONTROLLER_CONFIGS_DIR') == '') | ternary('./configs', lookup('env','CONTROLLER_CONFIGS_DIR'))) }}"
+        ignore_files: [controller_config.yml.template]
+        extensions: ["yml"]
+      tags:
+        - always
+
+  roles:
+    - {role: redhat_cop.controller_configuration.settings, when: controller_settings is defined, tags: settings}
+    - {role: redhat_cop.controller_configuration.organizations, when: controller_organizations is defined, tags: organizations}
+    - {role: redhat_cop.controller_configuration.labels, when: controller_labels is defined, tags: labels}
+    - {role: redhat_cop.controller_configuration.users, when: controller_user_accounts is defined, tags: users}
+    - {role: redhat_cop.controller_configuration.teams, when: controller_teams is defined, tags: teams}
+    - {role: redhat_cop.controller_configuration.credential_types, when: controller_credential_types is defined, tags: credential_types}
+    - {role: redhat_cop.controller_configuration.credentials, when: controller_credentials is defined, tags: credentials}
+    - {role: redhat_cop.controller_configuration.credential_input_sources, when: controller_credential_input_sources is defined, tags: credential_input_sources}
+    - {role: redhat_cop.controller_configuration.notification_templates, when: controller_notifications is defined, tags: notification_templates}
+    - {role: redhat_cop.controller_configuration.projects, when: controller_projects is defined, tags: projects}
+    - {role: redhat_cop.controller_configuration.execution_environments, when: controller_execution_environments is defined, tags: execution_environments}
+    - {role: redhat_cop.controller_configuration.applications, when: controller_applications is defined, tags: applications}
+    - {role: redhat_cop.controller_configuration.inventories, when: controller_inventories is defined, tags: inventories}
+    - {role: redhat_cop.controller_configuration.instance_groups, when: controller_instance_groups is defined, tags: instance_groups}
+    - {role: redhat_cop.controller_configuration.project_update, when: controller_projects is defined, tags: projects}
+    - {role: redhat_cop.controller_configuration.inventory_sources, when: controller_inventory_sources is defined, tags: inventory_sources}
+    - {role: redhat_cop.controller_configuration.inventory_source_update, when: controller_inventory_sources is defined, tags: inventory_sources}
+    - {role: redhat_cop.controller_configuration.hosts, when: controller_hosts is defined, tags: hosts}
+    - {role: redhat_cop.controller_configuration.groups, when: controller_groups is defined, tags: inventories}
+    - {role: redhat_cop.controller_configuration.job_templates, when: controller_templates is defined, tags: job_templates}
+    - {role: redhat_cop.controller_configuration.workflow_job_templates, when: controller_workflows is defined, tags: workflow_job_templates}
+    - {role: redhat_cop.controller_configuration.schedules, when: controller_schedules is defined, tags: schedules}
+    - {role: redhat_cop.controller_configuration.roles, when: controller_roles is defined, tags: roles}
+
+  tasks:
+
+    - name: Add Controller Settings Individually
+      include_role:
+        name: settings
+      vars:
+        controller_settings: "{{ controller_settings_individuale }}"
+      when: controller_settings_individuale is defined
+
+    - name: Run ad hoc commands
+      include_role:
+        name: ad_hoc_command
+      when: controller_ad_hoc_commands is defined
+
+    - name: Cancel Ad hoc commands
+      include_tasks: "./tasks/ad_hoc_cancel.yml"
+      when: controller_ad_hoc_commands is defined
+
+    - name: Launch Controller Jobs
+      include_role:
+        name: job_launch
+      when: controller_launch_jobs is defined
+
+    - name: Show launched Controller jobs
+      debug:
+        var: launched_controller_jobs
+
+    - name: Cancel Controller Jobs
+      include_role:
+        name: jobs_cancel
+      vars:
+        controller_cancel_jobs: "{{ launched_controller_jobs.results }}"
+      when: launched_controller_jobs is defined
+
+    - name: Launch Controller workflows
+      include_role:
+        name: workflow_launch
+      when: controller_workflow_launch_jobs is defined
+...

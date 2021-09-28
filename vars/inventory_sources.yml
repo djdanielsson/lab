@@ -1,0 +1,11 @@
+---
+controller_inventory_sources:
+  - name: RHVM-01
+    source: rhv
+    inventory: RHVM-01
+    credential: admin@internal-RHVM-01
+    description: created by Ansible controller
+    overwrite: true
+    update_on_launch: true
+    update_cache_timeout: 0
+...
