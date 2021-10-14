@@ -7,4 +7,3 @@ required vars to run, I would vault them and not commit to git
 |`tower_db_node`|""|yes|string|FQDN or IP address of Database node|"database.example.com"|
 |`tower_admin_pass`|""|yes|string|Password to set for the admin account for Tower and Automation Hub if not specified|'Sup3rGo0dP@s$wOrd'|
 |`tower_pg_pass`|""|yes|string|Password to set for the database user for Tower and Automation Hub if not specified|'Sup3rGo0dP@s$wOrd2'|
-...
