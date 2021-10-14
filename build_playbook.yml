@@ -4,6 +4,15 @@
   become: true
   vars_files:
     - build_vars.yml
+  pre_tasks:
+    - name: copy bundle over
+      ansible.builtin.copy:
+        src: files/aap_20.tar.gz
+        dest: /tmp/aap_install/
+        owner: root
+        group: root
+        mode: '0744'
+
   roles:
     - redhat_cop.tower_utilities.install
 ...

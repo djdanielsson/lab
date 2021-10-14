@@ -1,40 +1,38 @@
 ---
 tower_working_location: "/root/"
 tower_force_setup: true
-tower_releases_url: https://releases.ansible.com/ansible-tower/setup
-tower_setup_file: ansible-tower-setup-{{ tower_release_version }}.tar.gz
+tower_releases_url: /tmp/aap_install 
+tower_setup_file: aap_20.tar.gz
 
 # Use the default tower installation template
 pre_tasks_process_template: true
 
 # Tower variables
-tower_nodes:
-  - "localhost ansible_connection=local"
-
-tower_admin_password: "password"
-tower_url: "https://localhost"
+tower_nodes: "{{ tower_node_list }}"
+tower_admin_password: "{{ tower_admin_pass }}"
+tower_url: "https://{{ tower_nodes[0] }}"
 tower_server: "{{ tower_url }}"
-tower_database_node: ""
-tower_database_port: ""
+tower_database_node: "{{ tower_db_node }}"
+tower_database_port: "{{ tower_db_port | default('5432') }}"
 tower_ssh_connection_vars: ''
 
 # Postgresql variables
 tower_pg_database: "awx"
 tower_pg_username: "awx"
-tower_pg_password: "password"
+tower_pg_password: "{{ tower_pg_pass }}"
 
 # as long as the host name is empty, Automation Hub will NOT be installed
-tower_ah_nodes: []
+tower_ah_nodes: "{{ tower_ah_node }}"
 
 # the default configures an AH using the default database with similar defaults as Tower
-tower_ah_admin_password: "{{ tower_admin_password }}"
+tower_ah_admin_password: "{{ tower_ah_admin_pass | default(tower_admin_password) }}"
 # if tower_database_node isn't defined or is empty,
 # the host where the installation takes place is deemed to host the DB
 tower_ah_pg_node: "{{ tower_database_node | default(ansible_host | default(inventory_hostname), true) }}"
 tower_ah_pg_port: "{{ tower_database_port }}"
 tower_ah_pg_database: 'automationhub'  # it is NOT supported to use the same name as for Tower!
-tower_ah_pg_username: "{{ tower_pg_username }}"
-tower_ah_pg_password: "{{ tower_pg_password }}"
+tower_ah_pg_username: "{{ tower_ah_pg_user | default(tower_pg_username) }}"
+tower_ah_pg_password: "{{ tower-ah_pg_pass | default(tower_pg_password) }}"
 tower_ah_pg_sslmode: prefer
 
 # The below variables are unset, but can be used to affect certificates within the automation platform
