@@ -1,5 +1,5 @@
 ---
 - collections:
   - name: ansible.controller
-  - name: redhat_cop.controller_configuration
+  - name: redhat_cop.tower_utilities
 ...
