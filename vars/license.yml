@@ -1,5 +1,0 @@
----
-controller_license:
-  data: "{{ lookup('file', '/tmp/my_controller.license') }}"
-  force: false
-...
