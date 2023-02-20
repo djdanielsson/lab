@@ -1,0 +1,19 @@
+---
+- name: Revert AAP
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Run vmware role
+      ansible.builtin.include_role:
+        name: vmware
+      loop: "{{ vm_list }}"
+      vars:
+        revert_2_snapshot: true
+        get_last_snapshot: true
+        vm_list:
+          - vm_name: controller1
+          - vm_name: hub1
+          - vm_name: aapdb
+          - vm_name: sso
+          - vm_name: service_catalog
+...

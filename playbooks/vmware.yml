@@ -1,0 +1,12 @@
+---
+- name: Revert AAP
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Run vmware role
+      ansible.builtin.include_role:
+        name: vmware
+      vars:
+        revert_2_snapshot: true
+        get_last_snapshot: true
+...

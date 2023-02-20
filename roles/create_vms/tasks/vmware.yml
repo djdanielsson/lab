@@ -1,0 +1,40 @@
+---
+# - name: Build a list of all the clusters
+#   vmware.vmware_rest.vcenter_cluster_info:
+#   register: all_the_clusters
+
+# - name: Retrieve details about the first cluster
+#   vmware.vmware_rest.vcenter_cluster_info:
+#     cluster: '{{ all_the_clusters.value[0].cluster }}'
+#   register: my_cluster_info
+
+- name: Create a VM
+  vmware.vmware_rest.vcenter_vm:
+    placement:
+      cluster: '{{ my_cluster_info.id }}'
+      datastore: "{{ lookup('vmware.vmware_rest.datastore_moid', '/my_dc/datastore/local') }}"
+      folder: "{{ lookup('vmware.vmware_rest.folder_moid', '/my_dc/vm') }}"
+      resource_pool: '{{ my_cluster_info.value.resource_pool }}'
+    name: "{{ item.name }}"
+    guest_OS: RHEL_8_64
+    hardware_version: VMX_11
+    memory:
+      hot_add_enabled: true
+      size_MiB: "{{ item.mem }}"
+    cpu:
+      count: "{{ item.cpu_count }}"
+      cores_per_socket: "{{ item.cpu_sockets }}"
+      hot_add_enabled: true
+    disks:
+    # TODO
+    # change to qcow2 and figure out how to pass metadata for cloud-init
+    - type: SATA
+      backing:
+        type: VMDK_FILE
+        vmdk_file: '[local] {{ item.name }}/{{ disk_name }}.vmdk'
+    nics:
+    - backing:
+        type: STANDARD_PORTGROUP
+        network: "{{ lookup('vmware.vmware_rest.network_moid', '/my_dc/network/VM Network') }}"
+  register: my_vm
+...

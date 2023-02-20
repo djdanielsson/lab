@@ -1,0 +1,9 @@
+---
+- name: Install Vault
+  hosts: vault
+  gather_facts: true
+  tasks:
+    - name: Run vault role
+      ansible.builtin.include_role:
+        name: vault
+...

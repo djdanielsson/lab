@@ -1,0 +1,7 @@
+---
+# defaults file for vmware
+get_all_snapshots: false
+get_snapshot_by_name: false
+get_last_snapshot: false
+r_vm_snapshots_first: false
+power_back_on: true

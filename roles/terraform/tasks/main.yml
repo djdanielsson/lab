@@ -1,0 +1,7 @@
+---
+- name: Deploy terraform
+  cloud.terraform.terraform:
+    project_path: '{{ project_dir }}'
+    state: "{{ state }}"
+    force_init: true
+...

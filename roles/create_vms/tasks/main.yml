@@ -1,0 +1,14 @@
+---
+# tasks file for create_vms
+- name: Import vmware tasks
+  ansible.builtin.import_tasks: vmware.yml
+  when: hypervisor match vmware
+
+- name: Import ovirt tasks
+  ansible.builtin.import_tasks: ovirt.yml
+  when: hypervisor match ovirt
+
+- name: Import nutanix tasks
+  ansible.builtin.import_tasks: nutanix.yml
+  when: hypervisor match nutanix
+...

@@ -1,0 +1,4 @@
+---
+# defaults file for create_vms
+hypervisor: "{{ hypervisor | default('vmware') }}"
+...
