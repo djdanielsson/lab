@@ -77,6 +77,7 @@
 
 - name: Initialize vault
   ansible.builtin.command: "vault operator init -tls-skip-verify"
+  changed_when: true
   register: r_keys
   environment:
     VAULT_ADDR: "https://{{ ansible_default_ipv4['address'] }}:8200"

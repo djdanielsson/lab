@@ -28,12 +28,12 @@
     disks:
     # TODO
     # change to qcow2 and figure out how to pass metadata for cloud-init
-    - type: SATA
-      backing:
-        type: VMDK_FILE
-        vmdk_file: '[local] {{ item.name }}/{{ disk_name }}.vmdk'
+      - type: SATA
+        backing:
+          type: VMDK_FILE
+          vmdk_file: '[local] {{ item.name }}/{{ disk_name }}.vmdk'
     nics:
-    - backing:
+      - backing:
         type: STANDARD_PORTGROUP
         network: "{{ lookup('vmware.vmware_rest.network_moid', '/my_dc/network/VM Network') }}"
   register: my_vm
