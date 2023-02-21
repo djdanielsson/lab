@@ -1,5 +1,5 @@
 ---
-name: Ansible Lint # feel free to pick your own name
+name: Ansible Later # feel free to pick your own name
 on: [push]
 
 jobs:
