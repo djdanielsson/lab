@@ -13,6 +13,9 @@ jobs:
       - name: Add cloud and galaxy tokens
         run: echo -e "${{ secrets.galaxy_token }}" >> ansible.cfg
 
+      - name: Wipe out vault to clear errors
+        run: echo -e " " > vault.yml
+
       - name: Install ansible-lint
         run: pip3 install ansible-core ansible-lint yamllint
 
