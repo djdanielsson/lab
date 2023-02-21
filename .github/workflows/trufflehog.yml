@@ -1,6 +1,6 @@
 ---
 name: Leaked Secrets Scan
-on: [pull_request]
+on: [push]
 jobs:
   TruffleHog:
     runs-on: ubuntu-latest
