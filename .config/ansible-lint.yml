@@ -1,13 +1,13 @@
 ---
 # Ansible Linter rules
-mock_modules:
-  - ansible.controller.controller_api
+# mock_modules:
+#   - ansible.controller.controller_api
 
 # Exclude paths from linter
 exclude_paths:
   - '${PWD}/.github/'
   - '${PWD}/changelogs/'
-  - '${PWD}/playbooks/install_configure.yml'
+  - '${PWD}/vault.yml'
 
 # Ansible Linter rules
 skip_list:
