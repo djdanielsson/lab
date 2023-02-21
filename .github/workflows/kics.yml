@@ -1,0 +1,14 @@
+---
+name: kics
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: run kics Scan
+        uses: Checkmarx/kics-github-action@v1.6
+        with:
+          path: "playbooks"
+...
