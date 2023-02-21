@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
       - name: run kics Scan
         uses: checkmarx/kics-github-action@v1.6
         with:
