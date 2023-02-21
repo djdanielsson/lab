@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: run kics Scan
-        uses: checkmarx/kics-github-action@v1.6.10
+        uses: checkmarx/kics-github-action@v1.6.9
         with:
           path: 'playbooks'
 ...
