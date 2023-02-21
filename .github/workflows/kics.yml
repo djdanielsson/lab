@@ -10,5 +10,5 @@ jobs:
       - name: run kics Scan
         uses: checkmarx/kics-github-action@v1.6
         with:
-          path: 'playbooks/revert_aap.yml'
+          path: './playbooks/revert_aap.yml'
 ...
