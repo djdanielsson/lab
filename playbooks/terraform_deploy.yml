@@ -1,0 +1,42 @@
+---
+- name: Deploy Terraform Configuration
+  hosts: localhost
+  vars_files:
+    "../vault.yml"
+  tasks:
+    - name: Create temporary file
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: temp
+      register: tempfile
+
+    - name: Fetch git repository
+      ansible.builtin.git:
+        repo: "{{ repo_url }}"
+        dest: "{{ repo_dir }}"
+        clone: true
+        accept_hostkey: true
+        key_file: "{{ git_options.key_file | default(omit) }}"
+      vars:
+        repo_url: "git@github.com:djdanielsson/infra_as_code.git"
+        repo_dir: "{{ tempfile.path }}"
+        git_options:
+          key_file: "/home/welcome/.ssh/id_ed25519"
+
+    - name: Add password to provider file
+      ansible.builtin.lineinfile:
+        path: "{{ tempfile.path }}/provider.tf"
+        regexp: 'esxi_password'
+        line: '  esxi_password = "{{ esxi_password }}"'
+
+    - name: Basic deploy of a service
+      cloud.terraform.terraform:
+        project_path: "{{ tempfile.path }}"
+        state: present
+        force_init: true
+
+    - name: Remove temp directory
+      ansible.builtin.file:
+        path: "{{ tempfile.path }}"
+        state: absent
+...
