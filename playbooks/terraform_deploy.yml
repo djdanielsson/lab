@@ -27,8 +27,7 @@
       ansible.builtin.lineinfile:
         path: "{{ tempfile.path }}/provider.tf"
         regexp: 'esxi_password'
-        line: '  esxi_password = "MySecretPassword1234!"'
-       # line: '  esxi_password = "{{ esxi_password }}"'
+        line: '  esxi_password = "{{ esxi_password }}"'
 
     - name: Basic deploy of a service
       cloud.terraform.terraform:
