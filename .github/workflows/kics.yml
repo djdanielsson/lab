@@ -12,4 +12,5 @@ jobs:
         uses: checkmarx/kics-github-action@v1.6
         with:
           path: 'playbooks'
+          platform_type: ansible
 ...
