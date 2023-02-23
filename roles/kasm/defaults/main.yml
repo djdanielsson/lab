@@ -1,0 +1,5 @@
+---
+# defaults file for kasm
+kasm_admin_pass: "Password1234!"
+kasm_user_pass: "Password1234!"
+...
