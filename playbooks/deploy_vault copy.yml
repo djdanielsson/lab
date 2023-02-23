@@ -1,0 +1,9 @@
+---
+- name: Install kasm
+  hosts: kasm
+  gather_facts: true
+  tasks:
+    - name: Run kasm role
+      ansible.builtin.include_role:
+        name: kasm
+...
