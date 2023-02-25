@@ -17,7 +17,7 @@
 - name: Generate templates from list
   ansible.builtin.template:
     src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    dest: "/tmp/terraform/{{ item.dest }}"
   loop: "{{ terraform_templates }}"
   notify:
     - Terraform apply
