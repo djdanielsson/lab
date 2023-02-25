@@ -12,6 +12,9 @@
   ansible.builtin.yum:
     name: vault, python3-cryptography
     state: latest
+  notify:
+    - Start vault service
+    - Enable vault service
 
 - name: Copy config
   ansible.builtin.template:
@@ -22,6 +25,9 @@
   ansible.builtin.copy:
     src: files/vault.service
     dest: /etc/systemd/system/vault.service
+  notify:
+    - Start vault service
+    - Enable vault service
 
 - name: Open up firewall
   ansible.posix.firewalld:
@@ -70,10 +76,8 @@
     owner: vault
     group: vault
 
-- name: Force restart service
-  ansible.builtin.service:
-    name: vault
-    state: started
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Initialize vault
   ansible.builtin.command: "vault operator init -tls-skip-verify"
