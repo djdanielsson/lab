@@ -1,0 +1,9 @@
+---
+- name: Terraform
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: Run terraform role
+      ansible.builtin.include_role:
+        name: terraform
+...

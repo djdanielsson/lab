@@ -10,7 +10,7 @@
 - name: Copy file versions.tf to /tmp/terraform
   ansible.builtin.copy:
     src: versinos.tf
-    dest: /tmp/terraform/versinos.tf
+    dest: /tmp/terraform/versions.tf
   notify:
     - Terraform init
 
