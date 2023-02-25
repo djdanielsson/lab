@@ -1,0 +1,14 @@
+---
+# defaults file for terraform
+rhel_vms:
+  - name: newrhel
+    fqdn: lab.danielsson.us.com
+    mem: 4
+    cpu: 4
+
+ubuntu_vms:
+  - name: newubuntu
+    fqdn: lab.danielsson.us.com
+    mem: 3
+    cpu: 5
+...

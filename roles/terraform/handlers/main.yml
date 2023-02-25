@@ -1,0 +1,13 @@
+---
+# handlers file for terraform
+- name: Terraform init
+  cloud.terraform.terraform:
+    project_path: /tmp/terraform
+    state: planned
+    force_init: true
+
+- name: Terraform apply
+  cloud.terraform.terraform:
+    project_path: /tmp/terraform
+    state: present
+...

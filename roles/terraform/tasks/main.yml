@@ -1,0 +1,33 @@
+---
+# tasks file for terraform
+- name: Create folder /tmp/terraform
+  ansible.builtin.file:
+    path: /tmp/terraform
+    state: directory
+  notify:
+    - Terraform init
+
+- name: Copy file versions.tf to /tmp/terraform
+  ansible.builtin.copy:
+    src: versinos.tf
+    dest: /tmp/terraform/versinos.tf
+  notify:
+    - Terraform init
+
+- name: Generate templates from list
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop: "{{ terraform_templates }}"
+  notify:
+    - Terraform apply
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Cleanup tmp directory when cleanup is true
+  ansible.builtin.file:
+    path: /tmp/terraform
+    state: absent
+  when: cleanup | default(false)
+...

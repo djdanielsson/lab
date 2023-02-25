@@ -1,0 +1,29 @@
+{% if ubuntu_vms is defined %}
+{% for each in ubuntu_vms %}
+data "template_file" "{{ each.name }}" {
+  template = file("ubuntu-cloud.tpl")
+  vars = {
+    HOSTNAME = "{{ each.name }}.{{ each.fqdn }}"
+  }
+}
+
+resource "esxi_guest" "{{ each.name }}" {
+  guest_name         = "{{ each.name }}"
+  disk_store         = "datastore1"
+  boot_disk_type     = "thin"
+  boot_disk_size     = "20"
+  guestos            = "ubuntu-64"
+  memsize            = {{ each.mem }}*1024
+  numvcpus           = {{ each.cpu }}
+  power              = "on"
+  ovf_source         = "https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-amd64.ova"
+  network_interfaces {
+    virtual_network = "VM Network"
+  }
+  guestinfo = {
+    "userdata.encoding" = "gzip+base64"
+    "userdata"          = base64gzip(data.template_file.{{ each.name }}.rendered)
+  }
+}
+{% endfor %}
+{% endif %}
