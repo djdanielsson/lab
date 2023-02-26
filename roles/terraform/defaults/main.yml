@@ -1,16 +1,64 @@
 ---
 # defaults file for terraform
-rhel_vms:
-  - name: newrhel
+rhel8_vms:
+  - name: sso
+    fqdn: lab.danielsson.us.com
+    power: "off"
+    mem: 2
+    cpu: 2
+  - name: service_catalog
+    fqdn: lab.danielsson.us.com
+    power: "off"
+    mem: 2
+    cpu: 2
+  - name: controller1
+    fqdn: lab.danielsson.us.com
+    mem: 4
+    cpu: 8
+  - name: hub1
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 8
+  - name: aapdb
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
+  - name: idm
+    fqdn: lab.danielsson.us.com
+    mem: 3
+    cpu: 2
+  - name: vault
+    fqdn: lab.danielsson.us.com
+    mem: 4
+    cpu: 2
+  - name: testrhel8
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
+
+fedora_vms:
+  - name: testfedora
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
+
+ubuntu_vms:
+  - name: portainer
+    fqdn: lab.danielsson.us.com
+    mem: 10
+    cpu: 8
+  - name: kasm
     fqdn: lab.danielsson.us.com
     mem: 4
     cpu: 4
-
-ubuntu_vms:
-  - name: newubuntu
+  - name: onedev
     fqdn: lab.danielsson.us.com
-    mem: 3
-    cpu: 5
+    mem: 2
+    cpu: 2
+  - name: testubuntu
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
 
 terraform_templates:
   - src: provider.tf.j2
@@ -19,6 +67,14 @@ terraform_templates:
     dest: rhel8-cloud.tpl
   - src: rhel8.tf.j2
     dest: rhel8.tf
+  - src: rhel9-cloud.tpl.j2
+    dest: rhel9-cloud.tpl
+  - src: rhel9.tf.j2
+    dest: rhel9.tf
+  - src: fedora-cloud.tpl.j2
+    dest: fedora-cloud.tpl
+  - src: fedora.tf.j2
+    dest: fedora.tf
   - src: ubuntu-cloud.tpl.j2
     dest: ubuntu-cloud.tpl
   - src: ubuntu.tf.j2

@@ -19,11 +19,14 @@
     src: "{{ item.src }}"
     dest: "/tmp/terraform/{{ item.dest }}"
   loop: "{{ terraform_templates }}"
-  notify:
-    - Terraform apply
 
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
+
+- name: Terraform apply
+  cloud.terraform.terraform:
+    project_path: /tmp/terraform
+    state: present
 
 - name: Cleanup tmp directory when cleanup is true
   ansible.builtin.file:

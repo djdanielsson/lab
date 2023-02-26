@@ -1,7 +1,7 @@
-{% if ubuntu_vms is defined %}
-{% for each in ubuntu_vms %}
+{% if fedora_vms is defined %}
+{% for each in fedora_vms %}
 data "template_file" "{{ each.name }}" {
-  template = file("ubuntu-cloud.tpl")
+  template = file("fedora-cloud.tpl")
   vars = {
     HOSTNAME = "{{ each.name }}.{{ each.fqdn }}"
   }
@@ -11,12 +11,12 @@ resource "esxi_guest" "{{ each.name }}" {
   guest_name         = "{{ each.name }}"
   disk_store         = "{{ each.datastore | default('datastore1') }}"
   boot_disk_type     = "{{ each.disk_type | default('thin') }}"
-  boot_disk_size     = "{{ each.disk_size | default('20') }}"
-  guestos            = "ubuntu-64"
+  guestos            = "fedora-64"
+  boot_firmware      = "efi"
   memsize            = {{ each.mem }}*1024
   numvcpus           = {{ each.cpu }}
   power              = "{{ each.power | default('on') }}"
-  ovf_source         = "https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-amd64.ova"
+  clone_from_vm      = "{{ each.clone_vm | default('fedora_template') }}"
   network_interfaces {
     virtual_network = "{{ each.network | default('VM Network') }}"
   }
