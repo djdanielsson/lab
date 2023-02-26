@@ -3,7 +3,7 @@
 - name: Terraform init
   cloud.terraform.terraform:
     project_path: /tmp/terraform
-    state: planned
+    state: present
     force_init: true
 
 - name: Terraform apply
