@@ -13,16 +13,19 @@ rhel8_vms:
     cpu: 2
   - name: controller1
     fqdn: lab.danielsson.us.com
-    mem: 4
+    mem: 8
     cpu: 8
+    notes: "[automationcontroller]"
   - name: hub1
     fqdn: lab.danielsson.us.com
-    mem: 2
+    mem: 8
     cpu: 8
+    notes: "[automationhub]"
   - name: aapdb
     fqdn: lab.danielsson.us.com
-    mem: 2
+    mem: 8
     cpu: 2
+    notes: "[database]"
   - name: idm
     fqdn: lab.danielsson.us.com
     mem: 3

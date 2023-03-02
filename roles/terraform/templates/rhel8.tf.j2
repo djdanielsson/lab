@@ -16,6 +16,7 @@ resource "esxi_guest" "{{ each.name }}" {
   memsize            = {{ each.mem }}*1024
   numvcpus           = {{ each.cpu }}
   power              = "{{ each.power | default('on') }}"
+  notes              = "{{ each.notes }}"
   clone_from_vm      = "{{ each.clone_vm | default('rhel8_template') }}"
   network_interfaces {
     virtual_network = "{{ each.network | default('VM Network') }}"
