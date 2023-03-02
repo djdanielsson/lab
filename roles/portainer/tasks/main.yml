@@ -7,7 +7,7 @@
       - curl
       - gnupg
       - lsb-release
-    state: installed
+    state: latest
 
 - name: Ensure directory /etc/apt/keyrings exists and is 0755
   ansible.builtin.file:
