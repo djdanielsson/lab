@@ -1,0 +1,60 @@
+---
+# tasks file for portainer
+- name: Install list of packages
+  ansible.builtin.package:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: installed
+
+- name: Ensure directory /etc/apt/keyrings exists and is 0755
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: One way to avoid apt_key once it is removed from your distro
+  block:
+    - name: Download gpg key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.gpg
+
+    - name: Add docker repo
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        state: present
+
+- name: Update repositories cache and install "foo" package
+  ansible.builtin.apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+      - docker-compose
+    update_cache: true
+
+- name: Create docker volume called portainer_data
+  community.docker.docker_volume:
+    name: portainer_data
+
+- name: Start portainer
+  community.docker.docker_container:
+    name: portainer
+    image: portainer/portainer-ce:latest
+    state: started
+    restart: true
+    restart_policy: "always"
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+...
