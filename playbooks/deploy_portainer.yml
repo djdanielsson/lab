@@ -1,0 +1,9 @@
+---
+- name: Install portainer
+  hosts: portainer
+  gather_facts: true
+  tasks:
+    - name: Run portainer role
+      ansible.builtin.include_role:
+        name: portainer
+...
