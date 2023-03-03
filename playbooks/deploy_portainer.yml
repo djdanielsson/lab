@@ -1,6 +1,6 @@
 ---
 - name: Install portainer
-  hosts: portainer
+  hosts: all
   gather_facts: true
   become: true
   tasks:

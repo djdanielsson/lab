@@ -17,6 +17,7 @@
 
 - name: Run bash script
   ansible.builtin.command: "{{ tmp_dir.path }}/kasm_release/install.sh -e -H --admin-password {{ kasm_admin_pass }} --user-password {{ kasm_user_pass }}"
+  no_log: true
   changed_when: true
   become: true
 ...
