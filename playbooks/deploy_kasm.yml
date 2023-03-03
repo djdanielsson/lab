@@ -1,6 +1,6 @@
 ---
 - name: Install kasm
-  hosts: kasm
+  hosts: all
   gather_facts: true
   tasks:
     - name: Run Docker Ubuntu role

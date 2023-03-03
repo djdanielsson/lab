@@ -1,6 +1,6 @@
 ---
 - name: Install Vault
-  hosts: vault
+  hosts: all
   gather_facts: true
   tasks:
     - name: Run vault role
