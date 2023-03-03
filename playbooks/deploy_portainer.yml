@@ -4,7 +4,25 @@
   gather_facts: true
   become: true
   tasks:
-    - name: Run portainer role
+    - name: Run Docker Ubuntu role
       ansible.builtin.include_role:
+        name: docker_ubuntu
+
+    - name: Create docker volume called portainer_data
+      community.docker.docker_volume:
+        name: portainer_data
+
+    - name: Start portainer
+      community.docker.docker_container:
         name: portainer
+        image: portainer/portainer-ce:latest
+        state: started
+        restart: true
+        restart_policy: "always"
+        ports:
+          - "8000:8000"
+          - "9443:9443"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data
 ...
