@@ -30,7 +30,7 @@ chpasswd:
 runcmd:
   - date >/root/cloudinit.log
   - hostnamectl set-hostname ${HOSTNAME}
-  - apt install vim git cockpit
-  - systemctl enable --now cockpit.service
+  - apt install -y vim git cockpit >>/root/cloudinit.log
+  - systemctl enable --now cockpit.service >>/root/cloudinit.log
   - echo "Done cloud-init" >>/root/cloudinit.log
   - ip a >/dev/tty1
