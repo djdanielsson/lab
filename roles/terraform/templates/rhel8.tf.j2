@@ -3,7 +3,7 @@
 data "template_file" "{{ each.name }}" {
   template = file("rhel8-cloud.tpl")
   vars = {
-    HOSTNAME = "{{ each.name }}.{{ each.fqdn }}"
+    HOSTNAME = "{{ each.name }}.{{ each.fqdn | default('local') }}"
   }
 }
 
@@ -13,8 +13,8 @@ resource "esxi_guest" "{{ each.name }}" {
   boot_disk_type     = "{{ each.disk_type | default('thin') }}"
   guestos            = "rhel8-64"
   boot_firmware      = "efi"
-  memsize            = {{ each.mem }}*1024
-  numvcpus           = {{ each.cpu }}
+  memsize            = {{ each.mem | default(1) }}*1024
+  numvcpus           = {{ each.cpu | default(1) }}
   power              = "{{ each.power | default('on') }}"
   {% if each.notes is defined -%}
   notes              = "{{ each.notes }}"

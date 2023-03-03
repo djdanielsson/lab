@@ -62,6 +62,7 @@ ubuntu_vms:
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
+  - name: testubuntu2
 
 terraform_templates:
   - src: provider.tf.j2
