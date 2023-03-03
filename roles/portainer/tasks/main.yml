@@ -22,7 +22,13 @@
     - name: Download gpg key
       ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
-        dest: /etc/apt/keyrings/docker.asc
+        dest: /etc/apt/keyrings/docker.gpg
+      register: r_download_key
+
+    - name: Fix key
+      ansible.builtin.shell: gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+      changed_when: true
+      when: r_download_key is changed
 
     - name: Add docker repo
       ansible.builtin.apt_repository:
