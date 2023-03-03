@@ -54,8 +54,8 @@
       - docker-compose
     update_cache: true
   notify:
-    Enable docker
-    Enable containerd
+    - Enable docker
+    - Enable containerd
 
 - name: Create docker group
   ansible.builtin.group:
