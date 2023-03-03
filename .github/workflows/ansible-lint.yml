@@ -14,7 +14,7 @@ jobs:
         run: echo -e "${{ secrets.galaxy_token }}" >> ansible.cfg
 
       - name: Fix issues
-        run: echo -e " " > vault.yml; sed -i '\/*community.esxi*\/\/g' collections/requirements.yml
+        run: echo -e " " > vault.yml; sed -i -e "/.*community.esxi.*//g" collections/requirements.yml
 
       - name: Install ansible-lint
         run: pip3 install ansible-core ansible-lint yamllint
