@@ -4,9 +4,5 @@
   ansible.builtin.service:
     name: vault
     state: started
-
-- name: Enable vault service
-  ansible.builtin.service:
-    name: vault
-    state: enabled
+    enabled: true
 ...
