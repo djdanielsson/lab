@@ -1,8 +1,12 @@
 ---
 # tasks file for create_vms
-- name: Import vmware tasks
-  ansible.builtin.import_tasks: vmware.yml
-  when: hypervisor match vmware
+- name: Import vcenter tasks
+  ansible.builtin.import_tasks: vcenter.yml
+  when: hypervisor match vcenter
+
+- name: Import esxi tasks
+  ansible.builtin.import_tasks: esxi.yml
+  when: hypervisor match esxi
 
 - name: Import ovirt tasks
   ansible.builtin.import_tasks: ovirt.yml
