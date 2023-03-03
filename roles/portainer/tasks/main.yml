@@ -33,7 +33,7 @@
     - name: Fix key
       ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
       changed_when: true
-      when: r_download_key is changed
+      when: not r_download_key['stat']['exists']
 
     - name: Add docker repo
       ansible.builtin.apt_repository:
