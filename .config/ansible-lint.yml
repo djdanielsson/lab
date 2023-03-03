@@ -1,7 +1,7 @@
 ---
 # Ansible Linter rules
-# mock_modules:
-#   - ansible.controller.controller_api
+mock_modules:
+  - community.esxi.esxi_inventory
 
 # Exclude paths from linter
 exclude_paths:
