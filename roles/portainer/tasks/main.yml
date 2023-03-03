@@ -19,21 +19,24 @@
 
 - name: One way to avoid apt_key once it is removed from your distro
   block:
+    - name: Check to see if key exists
+      ansible.builtin.stat:
+        path: /etc/apt/keyrings/docker.gpg
+      register: r_download_key
+
     # - name: Download gpg key
     #   ansible.builtin.get_url:
     #     url: https://download.docker.com/linux/ubuntu/gpg
     #     dest: /etc/apt/keyrings/docker.gpg
     #   register: r_download_key
 
-    - name: Check to see if key exists
-      ansible.builtin.stat:
-        path: /etc/apt/keyrings/docker.gpg
-      register: r_download_key
-
-    - name: Fix key
+    # It seems to need whatever the gpg --dearmor -o does so cannot use get_url suppressing warning
+    - name: Download gpg key
       ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
       changed_when: true
       when: not r_download_key['stat']['exists']
+      args:
+        warn: false
 
     - name: Add docker repo
       ansible.builtin.apt_repository:
