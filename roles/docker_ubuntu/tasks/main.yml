@@ -55,4 +55,18 @@
       - docker-compose-plugin
       - docker-compose
     update_cache: true
+  notify:
+    Enable docker
+    Enable containerd
+
+- name: Create docker group
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add current user to docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: true
 ...
