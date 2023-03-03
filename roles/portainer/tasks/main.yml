@@ -26,7 +26,7 @@
 
     - name: Add docker repo
       ansible.builtin.apt_repository:
-        repo: "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
         state: present
 
 - name: Update repositories cache and install "foo" package
