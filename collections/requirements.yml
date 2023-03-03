@@ -5,4 +5,5 @@ collections:
   - name: vmware.vmware_rest
   - name: cloud.terraform
   - name: community.docker
+  - name: community.esxi
 ...
