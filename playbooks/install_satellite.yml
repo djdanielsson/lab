@@ -25,5 +25,5 @@
           - '--foreman-proxy-dhcp-nameservers 192.168.1.37'
           - '--foreman-proxy-tftp true'
           - '--foreman-proxy-tftp-managed true'
--         - '--foreman-proxy-tftp-servername 192.168.1.37'
+          - '--foreman-proxy-tftp-servername 192.168.1.37'
 ...
