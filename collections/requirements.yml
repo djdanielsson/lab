@@ -6,4 +6,5 @@ collections:
   - name: cloud.terraform
   - name: community.docker
   - name: community.esxi
+  - name: redhat.satellite_operations
 ...
