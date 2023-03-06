@@ -38,11 +38,11 @@ rhel8_vms:
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
-  - name: satellite
-    fqdn: lab.danielsson.us.com
-    mem: 8
-    cpu: 8
-    disk_size: 200
+  # - name: satellite
+  #   fqdn: lab.danielsson.us.com
+  #   mem: 8
+  #   cpu: 8
+  #   disk_size: 200
 
 fedora_vms:
   - name: testfedora
@@ -53,7 +53,7 @@ fedora_vms:
 ubuntu_vms:
   - name: portainer
     fqdn: lab.danielsson.us.com
-    mem: 10
+    mem: 8
     cpu: 8
   - name: kasm
     fqdn: lab.danielsson.us.com
