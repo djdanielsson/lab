@@ -1,16 +1,6 @@
 ---
 # defaults file for terraform
 rhel8_vms:
-  - name: sso
-    fqdn: lab.danielsson.us.com
-    power: "off"
-    mem: 2
-    cpu: 2
-  - name: service_catalog
-    fqdn: lab.danielsson.us.com
-    power: "off"
-    mem: 2
-    cpu: 2
   - name: controller1
     fqdn: lab.danielsson.us.com
     mem: 8
@@ -38,11 +28,11 @@ rhel8_vms:
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
-  # - name: satellite
-  #   fqdn: lab.danielsson.us.com
-  #   mem: 8
-  #   cpu: 8
-  #   disk_size: 200
+  - name: satellite
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+    disk_size: 200
 
 fedora_vms:
   - name: testfedora
