@@ -16,6 +16,11 @@ rhel8_vms:
     mem: 8
     cpu: 2
     notes: "database"
+  - name: eda
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+    notes: "automationedacontroller"
   - name: idm
     fqdn: lab.danielsson.us.com
     mem: 3
