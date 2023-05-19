@@ -17,9 +17,9 @@ resource "libvirt_volume" "{{ each.name }}-qcow2" {
 
 data "template_file" "{{ each.name }}" {
   template = file("${path.module}/ubuntu-cloud.tpl")
-  vars = {
-    HOSTNAME = "{{ each.name }}.{{ each.fqdn | default('local') }}"
-  }
+  # vars = {
+  #   HOSTNAME = "{{ each.name }}.{{ each.fqdn | default('local') }}"
+  # }
 }
 
 # https://github.com/dmacvicar/terraform-provider-libvirt/blob/master/website/docs/r/cloudinit.html.markdown
@@ -32,7 +32,7 @@ resource "libvirt_cloudinit_disk" "{{ each.name }}" {
 # Create the machine
 resource "libvirt_domain" "{{ each.name }}" {
   name   = "{{ each.name }}"
-  memory = {{ each.mem | default(1) }}*1024
+  memory = {{ ((each.mem | default(1))*1024) }}
   vcpu   = {{ each.cpu | default(1) }}
 
   cloudinit = libvirt_cloudinit_disk.{{ each.name }}.id
