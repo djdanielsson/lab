@@ -9,11 +9,18 @@ resource "libvirt_pool" "{{ each.name }}" {
 }
 
 # We fetch the latest ubuntu release image from their mirrors
-resource "libvirt_volume" "{{ each.name }}-qcow2" {
+resource "libvirt_volume" "{{ each.name }}-tmp" {
   name   = "{{ each.name }}-qcow2"
   pool   = libvirt_pool.{{ each.name }}.name
   source = "https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-amd64.img"
   format = "qcow2"
+}
+
+# We fetch the latest ubuntu release image from their mirrors
+resource "libvirt_volume" "{{ each.name }}-qcow2" {
+  name   = "{{ each.name }}-qcow2"
+  pool   = libvirt_pool.{{ each.name }}.name
+  base_volume_id = libvirt_volume.{{ each.name }}-tmp.id
   size   = {{ ((each.disk_size | default(20)))*1073741824 }} # *1073741824
 }
 
