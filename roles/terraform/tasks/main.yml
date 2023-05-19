@@ -9,15 +9,21 @@
 
 - name: Copy file versions.tf to /tmp/terraform
   ansible.builtin.copy:
-    src: versions.tf
+    src: "{{ virt_manager }}-versions.tf"
     dest: /tmp/terraform/versions.tf
   notify:
     - Terraform init
 
+- name: Copy "{{ item.name }}"
+  ansible.builtin.copy:
+    src: "{{ item.name }}"
+    dest: "/tmp/terraform/{{ item.name }}"
+  loop: "{{ cloud_files }}"
+
 - name: Generate templates from list
   ansible.builtin.template:
-    src: "{{ item.src }}"
-    dest: "/tmp/terraform/{{ item.dest }}"
+    src: "{{ virt_manager }}-{{ item.src }}"
+    dest: "/tmp/terraform/{{ virt_manager }}-{{ item.dest }}"
   loop: "{{ terraform_templates }}"
 
 - name: Flush handlers
