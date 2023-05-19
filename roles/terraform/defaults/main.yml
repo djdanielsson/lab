@@ -68,6 +68,8 @@ ubuntu_vms:
 terraform_templates:
   - src: ubuntu.tf.j2
     dest: ubuntu.tf
+  - src: provider.tf.j2
+    dest: provider.tf
 
 cloud_files:
   - name: ubuntu-cloud.tpl
