@@ -3,7 +3,7 @@
 resource "libvirt_pool" "{{ each.name }}" {
   name       = "{{ each.name }}"
   # capacity = {{ ((each.disk_size | default('200'))) }} # *1073741824
-  allocation = {{ ((each.disk_size | default('20'))) }}
+  # allocation = {{ ((each.disk_size | default('20'))) }}
   type       = "dir"
   path       = "/tmp/terraform-provider-libvirt-pool-{{ each.name }}"
 }
