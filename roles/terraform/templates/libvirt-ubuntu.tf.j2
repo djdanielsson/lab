@@ -48,7 +48,7 @@ resource "libvirt_domain" "{{ each.name }}" {
     target_port = "1"
   }
   disk {
-    volume_id = libvirt_volume.ubuntu-qcow2.id
+    volume_id = libvirt_volume.{{ each.name }}-qcow2.id
   }
   graphics {
     type        = "spice"
