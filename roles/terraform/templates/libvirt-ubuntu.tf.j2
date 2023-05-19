@@ -2,7 +2,7 @@
 {% for each in ubuntu_vms %}
 resource "libvirt_pool" "{{ each.name }}" {
   name       = "{{ each.name }}"
-  capacity = {{ ((each.disk_size | default(20)))*1073741824 }} # *1073741824
+  capacity = {{ ((each.disk_size | default(20))*1073741824) }} # *1073741824
   # allocation = {{ ((each.disk_size | default(20))) }}
   type       = "dir"
   path       = "/tmp/terraform-provider-libvirt-pool-{{ each.name }}"
@@ -21,7 +21,7 @@ resource "libvirt_volume" "{{ each.name }}-qcow2" {
   name   = "{{ each.name }}-qcow2"
   pool   = libvirt_pool.{{ each.name }}.name
   base_volume_id = libvirt_volume.{{ each.name }}-tmp.id
-  size   = {{ ((each.disk_size | default(20)))*1073741824 }} # *1073741824
+  size   = {{ ((each.disk_size | default(20))*1073741824) }} # *1073741824
 }
 
 data "template_file" "{{ each.name }}" {
