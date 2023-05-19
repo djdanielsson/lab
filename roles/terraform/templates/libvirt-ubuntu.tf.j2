@@ -1,6 +1,6 @@
 {% if ubuntu_vms is defined %}
 {% for each in ubuntu_vms %}
-resource "libvirt_pool" "{{ each.name }}" {
+resource "libvirt_pool" "ubuntu" {
   name     = "{{ each.name }}"
   capacity = {{ each.disk_size | default('20') }}
   type     = "dir"
