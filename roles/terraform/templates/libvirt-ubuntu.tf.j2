@@ -23,7 +23,7 @@ data "template_file" "{{ each.name }}" {
 resource "libvirt_cloudinit_disk" "{{ each.name }}" {
   name           = "{{ each.name }}.iso"
   user_data      = data.template_file.user_data.rendered
-  pool           = libvirt_pool.{{ each.name }}.{{ each.name }}
+  pool           = libvirt_pool.{{ each.name }}.name
 }
 
 # Create the machine
