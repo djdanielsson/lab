@@ -17,9 +17,6 @@ resource "libvirt_volume" "{{ each.name }}-qcow2" {
 
 data "template_file" "{{ each.name }}" {
   template = file("${path.module}/ubuntu-cloud.tpl")
-  # vars = {
-  #   HOSTNAME = "{{ each.name }}.{{ each.fqdn | default('local') }}"
-  # }
 }
 
 # https://github.com/dmacvicar/terraform-provider-libvirt/blob/master/website/docs/r/cloudinit.html.markdown
