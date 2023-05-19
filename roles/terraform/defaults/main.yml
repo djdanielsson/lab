@@ -46,19 +46,19 @@ fedora_vms:
     cpu: 2
 
 ubuntu_vms:
-  - name: portainer
-    fqdn: lab.danielsson.us.com
-    mem: 8
-    cpu: 8
+  # - name: portainer
+  #   fqdn: lab.danielsson.us.com
+  #   mem: 8
+  #   cpu: 8
   # - name: kasm
   #   fqdn: lab.danielsson.us.com
   #   mem: 4
   #   cpu: 4
   #   disk_size: 100
-  - name: onedev
-    fqdn: lab.danielsson.us.com
-    mem: 2
-    cpu: 2
+  # - name: onedev
+  #   fqdn: lab.danielsson.us.com
+  #   mem: 2
+  #   cpu: 2
   - name: testubuntu
     fqdn: lab.danielsson.us.com
     mem: 2
