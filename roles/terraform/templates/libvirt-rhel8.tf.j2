@@ -1,32 +1,71 @@
 {% if rhel8_vms is defined %}
 {% for each in rhel8_vms %}
+resource "libvirt_pool" "{{ each.name }}" {
+  name       = "{{ each.name }}"
+  capacity = {{ ((each.disk_size | default(20))*1073741824) }} # *1073741824
+  # allocation = {{ ((each.disk_size | default(20))) }}
+  type       = "dir"
+  path       = "/tmp/terraform-provider-libvirt-pool-{{ each.name }}"
+}
+
+# We fetch the latest ubuntu release image from their mirrors
+resource "libvirt_volume" "{{ each.name }}-tmp" {
+  name   = "{{ each.name }}-tmp"
+  pool   = libvirt_pool.{{ each.name }}.name
+  source = "#TODO"
+  format = "qcow2"
+}
+
+# We fetch the latest ubuntu release image from their mirrors
+resource "libvirt_volume" "{{ each.name }}-qcow2" {
+  name   = "{{ each.name }}-qcow2"
+  pool   = libvirt_pool.{{ each.name }}.name
+  base_volume_id = libvirt_volume.{{ each.name }}-tmp.id
+  size   = {{ ((each.disk_size | default(20))*1073741824) }} # *1073741824
+}
+
 data "template_file" "{{ each.name }}" {
-  template = file("rhel8-cloud.tpl")
+  template = file("${path.module}/ubuntu-cloud.tpl")
   vars = {
     HOSTNAME = "{{ each.name }}.{{ each.fqdn | default('local') }}"
   }
 }
 
-resource "esxi_guest" "{{ each.name }}" {
-  guest_name         = "{{ each.name }}"
-  disk_store         = "{{ each.datastore | default('datastore1') }}"
-  boot_disk_type     = "{{ each.disk_type | default('thin') }}"
-  guestos            = "rhel8-64"
-  boot_firmware      = "efi"
-  memsize            = {{ each.mem | default(1) }}*1024
-  numvcpus           = {{ each.cpu | default(1) }}
-  power              = "{{ each.power | default('on') }}"
-  virthwver          = "{{ each.hwvers | default(20) }}" # Virtual Hardware Version	20 for ESXi 8
-  {% if each.notes is defined -%}
-  notes              = "{{ each.notes }}"
-  {% endif %}
-  clone_from_vm      = "{{ each.clone_vm | default('rhel8_template') }}"
-  network_interfaces {
-    virtual_network = "{{ each.network | default('VM Network') }}"
+# https://github.com/dmacvicar/terraform-provider-libvirt/blob/master/website/docs/r/cloudinit.html.markdown
+resource "libvirt_cloudinit_disk" "{{ each.name }}" {
+  name           = "{{ each.name }}.iso"
+  user_data      = data.template_file.{{ each.name }}.rendered
+  pool           = libvirt_pool.{{ each.name }}.name
+}
+
+# Create the machine
+resource "libvirt_domain" "{{ each.name }}" {
+  name   = "{{ each.name }}"
+  memory = {{ ((each.mem | default(1))*1024) }}
+  vcpu   = {{ each.cpu | default(1) }}
+
+  cloudinit = libvirt_cloudinit_disk.{{ each.name }}.id
+  network_interface {
+    network_name = "{{ each.network | default('default') }}"
   }
-  guestinfo = {
-    "userdata.encoding" = "gzip+base64"
-    "userdata"          = base64gzip(data.template_file.{{ each.name }}.rendered)
+  # IMPORTANT: this is a known bug on cloud images, since they expect a console we need to pass it https://bugs.launchpad.net/cloud-images/+bug/1573095
+  console {
+    type        = "pty"
+    target_port = "0"
+    target_type = "serial"
+  }
+  console {
+    type        = "pty"
+    target_type = "virtio"
+    target_port = "1"
+  }
+  disk {
+    volume_id = libvirt_volume.{{ each.name }}-qcow2.id
+  }
+  graphics {
+    type        = "spice"
+    listen_type = "address"
+    autoport    = true
   }
 }
 {% endfor %}
