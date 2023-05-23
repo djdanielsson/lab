@@ -31,7 +31,7 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-      - all
+        - all
   #   - 25
   # - name: SomePlatform
   #   versions:

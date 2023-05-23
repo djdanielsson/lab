@@ -34,7 +34,7 @@
     - name: Download gpg key
       ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
       changed_when: true
-      when: not r_download_key['stat']['exists']
+      when: not r_download_key['stat']['exists'] # noqa: command-instead-of-module
 
     - name: Add docker repo
       ansible.builtin.apt_repository:
