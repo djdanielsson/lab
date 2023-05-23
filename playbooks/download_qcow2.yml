@@ -1,0 +1,11 @@
+---
+- name: Download_qcow2
+  hosts: all
+  gather_facts: true
+  vars_files:
+    "../vault.yml"
+  tasks:
+    - name: Run download_qcow2 role
+      ansible.builtin.include_role:
+        name: download_qcow2
+...
