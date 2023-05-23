@@ -23,5 +23,5 @@ warn_list:  # or 'skip_list' to silence them completely
   - risky-shell-pipe  # Shells that use pipes should set the pipefail option.
   - template-instead-of-copy  # Templated files should use template instead of copy
   - command-instead-of-shell  # Use shell only when shell functionality is required.
-  - var-naming[no-role-prefix] # I don't want to do this
+  - no-role-prefix # I don't want to do this
 ...
