@@ -9,6 +9,7 @@ exclude_paths:
   - '${PWD}/changelogs/'
   - '${PWD}/vault.yml'
   - '${PWD}/playbooks/deploy_terraform.yml'
+  - 'vault.yml'
 
 # Ansible Linter rules
 skip_list:
