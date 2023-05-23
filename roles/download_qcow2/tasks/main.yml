@@ -30,8 +30,8 @@
     dest: "{{ setup_down_dest_dir }}/{{ item.filename }}"
     headers:
       Authorization: "Bearer {{ __r_login.json.access_token }}"
-  loop: "{{ __cf_images[:2] }}"
-  when: image_name in item.filename
+  when: image_name is match(item.filename)
+  loop: "{{ __cf_images }}"
   register: __r_downloads
 
 # - name: Extract the name of the downloaded installer to setup_down_installer_file

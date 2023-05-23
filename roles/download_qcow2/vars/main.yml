@@ -2,5 +2,5 @@
 # vars file for download_qcow2
 login_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
 image_url: https://api.access.redhat.com/management/v1/images/rhel/{{ rhel_version }}/x86_64
-image_name: "{% if rhel_version >= 9 %} rhel-baseos-{{ rhel_version }}-{{ arch }}-kvm.qcow2 {% else %} rhel-{{ rhel_version }}-{{ arch }}-kvm.qcow2 {% endif %}"
+image_name: "{% if (rhel_version | int) >= 9 %}rhel-baseos-{{ rhel_version }}-{{ arch }}-kvm.qcow2 {% else %} rhel-{{ rhel_version }}-{{ arch }}-kvm.qcow2{% endif %}"
 ...

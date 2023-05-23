@@ -2,4 +2,5 @@
 # defaults file for download_qcow2
 rhel_version: 8.7
 arch: x86_64 # or aarch64
+setup_down_dest_dir: /tmp/
 ...
