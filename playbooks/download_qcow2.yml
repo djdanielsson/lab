@@ -7,7 +7,7 @@
   tasks:
     - name: Stat
       ansible.builtin.stat:
-        path: "{% if (rhel_version | int) >= 9 %}rhel-baseos-{{ rhel_version }}-{{ arch }}-kvm.qcow2 {% else %} rhel-{{ rhel_version }}-{{ arch }}-kvm.qcow2{% endif %}"
+        path: "{{ setup_down_dest_dir }}{% if (rhel_version | int) >= 9 %}rhel-baseos-{{ rhel_version }}-{{ arch }}-kvm.qcow2 {% else %} rhel-{{ rhel_version }}-{{ arch }}-kvm.qcow2{% endif %}"
       register: r_qcow2
       vars:
         rhel_version: 8.7

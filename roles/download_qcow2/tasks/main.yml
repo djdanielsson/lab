@@ -11,7 +11,7 @@
       refresh_token: "{{ api_token }}"
   register: __r_login
 
-- name: Collecting the available installers
+- name: Collecting the available options
   ansible.builtin.uri:
     url: "{{ image_url }}"
     method: GET
@@ -24,7 +24,7 @@
   ansible.builtin.set_fact:
     __cf_images: "{{ __r_images_output.json.body | sort(attribute='datePublished', reverse=true) }}"
 
-- name: Downloading the latest installer of type {{ setup_down_type }}
+- name: Downloading {{ item.filename }}
   ansible.builtin.get_url:
     url: "{{ item.downloadHref }}"
     dest: "{{ setup_down_dest_dir }}/{{ item.filename }}"
@@ -32,9 +32,4 @@
       Authorization: "Bearer {{ __r_login.json.access_token }}"
   when: image_name is match(item.filename)
   loop: "{{ __cf_images }}"
-  register: __r_downloads
-
-# - name: Extract the name of the downloaded installer to setup_down_installer_file
-#   ansible.builtin.set_fact:
-#     setup_down_installer_file: "{{ (__r_downloads.results | selectattr('dest', 'defined') | map(attribute='dest') | list)[0] }}"
 ...
