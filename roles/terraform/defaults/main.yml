@@ -79,7 +79,7 @@ terraform_templates:
 
 cloud_files:
   - name: ubuntu-cloud.tpl
-  - name: fedora-cloud.tpl.j2
-  - name: rhel9-cloud.tpl.j2
-  - name: rhel8-cloud.tpl.j2
+  - name: fedora-cloud.tpl
+  - name: rhel9-cloud.tpl
+  - name: rhel8-cloud.tpl
 ...
