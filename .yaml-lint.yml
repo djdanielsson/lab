@@ -2,6 +2,7 @@
 ignore: |
   '.github/'
   'changelogs/'
+  'vault.yml'
 
 rules:
   braces:
