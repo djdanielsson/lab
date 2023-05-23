@@ -34,7 +34,7 @@
   when: image_name in item.filename
   register: __r_downloads
 
-- name: Extract the name of the downloaded installer to setup_down_installer_file
-  ansible.builtin.set_fact:
-    setup_down_installer_file: "{{ (__r_downloads.results | selectattr('dest', 'defined') | map(attribute='dest') | list)[0] }}"
+# - name: Extract the name of the downloaded installer to setup_down_installer_file
+#   ansible.builtin.set_fact:
+#     setup_down_installer_file: "{{ (__r_downloads.results | selectattr('dest', 'defined') | map(attribute='dest') | list)[0] }}"
 ...
