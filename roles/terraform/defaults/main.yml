@@ -46,19 +46,19 @@ fedora_vms:
     cpu: 2
 
 ubuntu_vms:
-  # - name: portainer
-  #   fqdn: lab.danielsson.us.com
-  #   mem: 8
-  #   cpu: 8
-  # - name: kasm
-  #   fqdn: lab.danielsson.us.com
-  #   mem: 4
-  #   cpu: 4
-  #   disk_size: 100
-  # - name: onedev
-  #   fqdn: lab.danielsson.us.com
-  #   mem: 2
-  #   cpu: 2
+  - name: portainer
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+  - name: kasm
+    fqdn: lab.danielsson.us.com
+    mem: 4
+    cpu: 4
+    disk_size: 100
+  - name: onedev
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
   - name: testubuntu
     fqdn: lab.danielsson.us.com
     mem: 2
@@ -70,27 +70,16 @@ terraform_templates:
     dest: ubuntu.tf
   - src: provider.tf.j2
     dest: provider.tf
+  - src: rhel8.tf.j2
+    dest: rhel8.tf
+  - src: rhel9.tf.j2
+    dest: rhel9.tf
+  - src: fedora.tf.j2
+    dest: fedora.tf
 
 cloud_files:
   - name: ubuntu-cloud.tpl
-
-# terraform_templates:
-#   - src: provider.tf.j2
-#     dest: provider.tf
-#   - src: rhel8-cloud.tpl.j2
-#     dest: rhel8-cloud.tpl
-#   - src: rhel8.tf.j2
-#     dest: rhel8.tf
-#   - src: rhel9-cloud.tpl.j2
-#     dest: rhel9-cloud.tpl
-#   - src: rhel9.tf.j2
-#     dest: rhel9.tf
-#   - src: fedora-cloud.tpl.j2
-#     dest: fedora-cloud.tpl
-#   - src: fedora.tf.j2
-#     dest: fedora.tf
-#   - src: ubuntu-cloud.tpl.j2
-#     dest: ubuntu-cloud.tpl
-#   - src: ubuntu.tf.j2
-#     dest: ubuntu.tf
+  - name: fedora-cloud.tpl.j2
+  - name: rhel9-cloud.tpl.j2
+  - name: rhel8-cloud.tpl.j2
 ...
