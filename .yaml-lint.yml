@@ -3,6 +3,7 @@ ignore: |
   '.github/'
   'changelogs/'
   'vault.yml'
+  '${PWD}/vault.yml'
 
 rules:
   braces:
