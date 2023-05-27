@@ -66,22 +66,20 @@ ubuntu_vms:
   - name: testubuntu2
 
 terraform_templates:
-  - src: provider.tf.j2
-    dest: provider.tf
-  - src: rhel8-cloud.tpl.j2
-    dest: rhel8-cloud.tpl
-  - src: rhel8.tf.j2
-    dest: rhel8.tf
-  - src: rhel9-cloud.tpl.j2
-    dest: rhel9-cloud.tpl
-  - src: rhel9.tf.j2
-    dest: rhel9.tf
-  - src: fedora-cloud.tpl.j2
-    dest: fedora-cloud.tpl
-  - src: fedora.tf.j2
-    dest: fedora.tf
-  - src: ubuntu-cloud.tpl.j2
-    dest: ubuntu-cloud.tpl
   - src: ubuntu.tf.j2
     dest: ubuntu.tf
+  - src: provider.tf.j2
+    dest: provider.tf
+  - src: rhel8.tf.j2
+    dest: rhel8.tf
+  - src: rhel9.tf.j2
+    dest: rhel9.tf
+  - src: fedora.tf.j2
+    dest: fedora.tf
+
+cloud_files:
+  - name: ubuntu-cloud.tpl
+  - name: fedora-cloud.tpl
+  - name: rhel9-cloud.tpl
+  - name: rhel8-cloud.tpl
 ...
