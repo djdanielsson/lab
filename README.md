@@ -13,4 +13,3 @@ sudo rpm-ostree install cockpit cockpit-machines cockpit-networkmanager cockpit-
 sudo systemctl enable cockpit-wc
 sudo systemctl enable cockpit.socket
 ```
-
