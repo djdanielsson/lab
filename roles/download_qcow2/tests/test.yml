@@ -1,0 +1,7 @@
+---
+- name: Test
+  hosts: localhost
+  remote_user: root
+  roles:
+    - download_qcow2
+...

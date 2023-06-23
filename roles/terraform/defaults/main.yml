@@ -1,0 +1,85 @@
+---
+# defaults file for terraform
+rhel8_vms:
+  - name: controller1
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+    notes: "automationcontroller"
+  - name: hub1
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+    notes: "automationhub"
+  - name: aapdb
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 2
+    notes: "database"
+  - name: eda
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+    notes: "automationedacontroller"
+  - name: idm
+    fqdn: lab.danielsson.us.com
+    mem: 3
+    cpu: 2
+  - name: vault
+    fqdn: lab.danielsson.us.com
+    mem: 4
+    cpu: 2
+  - name: testrhel8
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
+  - name: satellite
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+    disk_size: 200
+
+fedora_vms:
+  - name: testfedora
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
+
+ubuntu_vms:
+  - name: portainer
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+  - name: kasm
+    fqdn: lab.danielsson.us.com
+    mem: 4
+    cpu: 4
+    disk_size: 100
+  - name: onedev
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
+  - name: testubuntu
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
+  - name: testubuntu2
+
+terraform_templates:
+  - src: ubuntu.tf.j2
+    dest: ubuntu.tf
+  - src: provider.tf.j2
+    dest: provider.tf
+  - src: rhel8.tf.j2
+    dest: rhel8.tf
+  - src: rhel9.tf.j2
+    dest: rhel9.tf
+  - src: fedora.tf.j2
+    dest: fedora.tf
+
+cloud_files:
+  - name: ubuntu-cloud.tpl
+  - name: fedora-cloud.tpl
+  - name: rhel9-cloud.tpl
+  - name: rhel8-cloud.tpl
+...

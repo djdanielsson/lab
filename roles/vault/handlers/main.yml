@@ -1,0 +1,8 @@
+---
+# handlers file for vault
+- name: Start vault service
+  ansible.builtin.service:
+    name: vault
+    state: started
+    enabled: true
+...

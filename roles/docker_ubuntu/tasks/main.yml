@@ -1,0 +1,75 @@
+---
+# tasks file for portainer
+- name: Install list of packages
+  ansible.builtin.package:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: latest
+
+- name: Ensure directory /etc/apt/keyrings exists and is 0755
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: One way to avoid apt_key once it is removed from your distro
+  block:
+    - name: Check to see if key exists
+      ansible.builtin.stat:
+        path: /etc/apt/keyrings/docker.gpg
+      register: r_download_key
+
+    # - name: Download gpg key
+    #   ansible.builtin.get_url:
+    #     url: https://download.docker.com/linux/ubuntu/gpg
+    #     dest: /etc/apt/keyrings/docker.gpg
+    #   register: r_download_key
+
+    # It seems to need whatever the gpg --dearmor -o does so cannot use get_url suppressing warning
+    - name: Download gpg key
+      ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+      changed_when: true
+      when: not r_download_key['stat']['exists'] # noqa: command-instead-of-module
+
+    - name: Add docker repo
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        filename: docker
+        update_cache: false
+        state: present
+
+- name: Install docker
+  ansible.builtin.apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+      - docker-compose
+    update_cache: true
+  notify:
+    - Enable docker
+    - Enable containerd
+
+- name: Create docker group
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add current user to docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: true
+  notify:
+    - Reboot
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+...

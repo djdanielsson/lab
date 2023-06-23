@@ -1,0 +1,23 @@
+---
+# handlers file for portainer
+- name: Enable docker
+  ansible.builtin.service:
+    name: docker
+    enabled: true
+    state: started
+
+- name: Enable containerd
+  ansible.builtin.service:
+    name: containerd
+    enabled: true
+    state: started
+
+- name: Reboot
+  ansible.builtin.reboot:
+    connect_timeout: 5
+    msg: Reboot initiated by Ansible
+    reboot_timeout: 60
+    pre_reboot_delay: 0
+    post_reboot_delay: 30
+    test_command: whoami
+...

@@ -1,0 +1,91 @@
+---
+- name: Add repo
+  ansible.builtin.yum_repository:
+    name: hashicorp
+    description: Hashicorp Stable - $basearch
+    baseurl: https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable
+    gpgkey: https://rpm.releases.hashicorp.com/gpg
+    gpgcheck: true
+    enabled: true
+
+- name: Install vault
+  ansible.builtin.yum:
+    name: vault, python3-cryptography
+    state: latest
+  notify:
+    - Start vault service
+
+- name: Copy config
+  ansible.builtin.template:
+    src: templates/vault.hcl.j2
+    dest: /etc/vault.d/config.hcl
+
+- name: Copy service
+  ansible.builtin.copy:
+    src: files/vault.service
+    dest: /etc/systemd/system/vault.service
+  notify:
+    - Start vault service
+
+- name: Open up firewall
+  ansible.posix.firewalld:
+    port: "{{ item }}"
+    permanent: true
+    state: enabled
+    zone: public
+    immediate: true
+  loop:
+    - "8200/tcp"
+    - "443/tcp"
+    - "80/tcp"
+
+- name: Update hosts file
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "{{ ansible_default_ipv4['address'] }} {{ ansible_fqdn }}"
+
+- name: Generate an OpenSSL private key
+  community.crypto.openssl_privatekey:
+    path: "/opt/vault/tls/vault.pem"
+    owner: vault
+    group: vault
+
+- name: Generate an OpenSSL Certificate Signing Request with Subject information
+  community.crypto.openssl_csr:
+    path: "/opt/vault/tls/vault.csr"
+    privatekey_path: "/opt/vault/tls/vault.pem"
+    country_name: US
+    organization_name: Red Hat
+    state_or_province_name: North Carolina
+    locality_name: Raleigh
+    common_name: "{{ ansible_fqdn }}"
+    subject_alt_name:
+      - "IP:{{ ansible_default_ipv4['address'] }}"
+      - "DNS:{{ ansible_fqdn }}"
+    owner: vault
+    group: vault
+
+- name: Generate a Self Signed OpenSSL certificate
+  community.crypto.x509_certificate:
+    path: "/opt/vault/tls/vault_cert.pem"
+    privatekey_path: "/opt/vault/tls/vault.pem"
+    csr_path: "/opt/vault/tls/vault.csr"
+    provider: selfsigned
+    owner: vault
+    group: vault
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Initialize vault
+  ansible.builtin.command: "vault operator init -tls-skip-verify"
+  changed_when: true
+  register: r_keys
+  environment:
+    VAULT_ADDR: "https://{{ ansible_default_ipv4['address'] }}:8200"
+#        VAULT_ADDR: "https://{{ ansible_fqdn }}:8200"
+
+- name: Print out keys
+  ansible.builtin.debug:
+    var: r_keys['stdout_lines']
+...

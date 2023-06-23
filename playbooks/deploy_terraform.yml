@@ -1,0 +1,11 @@
+---
+- name: Terraform
+  hosts: all
+  gather_facts: true
+  vars_files:
+    "../vault.yml"
+  tasks:
+    - name: Run terraform role
+      ansible.builtin.include_role:
+        name: terraform
+...

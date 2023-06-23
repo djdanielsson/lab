@@ -1,0 +1,13 @@
+---
+- name: Install kasm
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Run Docker Ubuntu role
+      ansible.builtin.include_role:
+        name: docker_ubuntu
+
+    - name: Run kasm role
+      ansible.builtin.include_role:
+        name: kasm
+...

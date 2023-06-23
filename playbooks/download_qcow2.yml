@@ -1,0 +1,21 @@
+---
+- name: Download_qcow2
+  hosts: all
+  gather_facts: true
+  vars_files:
+    "../vault.yml"
+  tasks:
+    - name: Stat
+      ansible.builtin.stat:
+        path: "{{ setup_down_dest_dir }}{% if (rhel_version | int) >= 9 %}rhel-baseos-{{ rhel_version }}-{{ arch }}-kvm.qcow2 {% else %} rhel-{{ rhel_version }}-{{ arch }}-kvm.qcow2{% endif %}"
+      register: r_qcow2
+      vars:
+        rhel_version: 8.7
+        arch: x86_64 # or aarch64
+        setup_down_dest_dir: /tmp/
+
+    - name: Run download_qcow2 role
+      ansible.builtin.include_role:
+        name: download_qcow2
+      when: not r_qcow2['stat']['exists']
+...

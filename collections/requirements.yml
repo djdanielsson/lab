@@ -1,0 +1,10 @@
+---
+collections:
+  - name: ansible.posix
+  - name: community.crypto
+  - name: vmware.vmware_rest
+  - name: cloud.terraform
+  - name: community.docker
+  - name: community.esxi
+  - name: redhat.satellite_operations
+...

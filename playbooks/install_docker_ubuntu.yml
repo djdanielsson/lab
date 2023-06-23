@@ -1,0 +1,10 @@
+---
+- name: Install docker
+  hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Run Docker Ubuntu role
+      ansible.builtin.include_role:
+        name: docker_ubuntu
+...
