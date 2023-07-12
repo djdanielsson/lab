@@ -12,7 +12,7 @@ resource "libvirt_pool" "{{ each.name }}" {
 resource "libvirt_volume" "{{ each.name }}-tmp" {
   name   = "{{ each.name }}-tmp"
   pool   = libvirt_pool.{{ each.name }}.name
-  source = "#TODO"
+  source = "file:///tmp/rhel-baseos-9.1-x86_64-kvm.qcow2" # run download_qcow2 role to auto download this
   format = "qcow2"
 }
 
