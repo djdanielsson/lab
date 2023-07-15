@@ -33,7 +33,7 @@ chpasswd:
 #  Write to a log file (useing variables set in terraform) and show the ip on the console.
 runcmd:
   - date >/root/cloudinit.log
-  - hostnamectl set-hostname ${HOSTNAME}
+  - hostname ${HOSTNAME}
   - apt install -y vim git cockpit-system cockpit-networkmanager cockpit-tests cockpit-bridge cockpit cockpit-ws cockpit-dashboard cockpit-sosreport cockpit-packagekit cockpit-doc cockpit-storaged cockpit-pcp cockpit-389-ds >>/root/cloudinit.log
   - systemctl enable --now cockpit.service >>/root/cloudinit.log
   - echo "Done cloud-init" >>/root/cloudinit.log
