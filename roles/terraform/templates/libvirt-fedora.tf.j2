@@ -8,7 +8,7 @@ resource "libvirt_pool" "{{ each.name }}" {
   path       = "/tmp/terraform-provider-libvirt-pool-{{ each.name }}"
 }
 
-# We fetch the latest ubuntu release image from their mirrors
+# We fetch the latest fedora release image from their mirrors
 resource "libvirt_volume" "{{ each.name }}-tmp" {
   name   = "{{ each.name }}-tmp"
   pool   = libvirt_pool.{{ each.name }}.name
@@ -16,7 +16,6 @@ resource "libvirt_volume" "{{ each.name }}-tmp" {
   format = "qcow2"
 }
 
-# We fetch the latest ubuntu release image from their mirrors
 resource "libvirt_volume" "{{ each.name }}-qcow2" {
   name   = "{{ each.name }}-qcow2"
   pool   = libvirt_pool.{{ each.name }}.name
@@ -25,7 +24,7 @@ resource "libvirt_volume" "{{ each.name }}-qcow2" {
 }
 
 data "template_file" "{{ each.name }}" {
-  template = file("${path.module}/ubuntu-cloud.tpl")
+  template = file("${path.module}/fedora-cloud.tpl")
   vars = {
     HOSTNAME = "{{ each.name }}.{{ each.fqdn | default('local') }}"
   }

@@ -21,23 +21,10 @@ rhel8_vms:
     mem: 8
     cpu: 8
     notes: "automationedacontroller"
-  - name: idm
-    fqdn: lab.danielsson.us.com
-    mem: 3
-    cpu: 2
-  - name: vault
-    fqdn: lab.danielsson.us.com
-    mem: 4
-    cpu: 2
   - name: testrhel8
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
-  - name: satellite
-    fqdn: lab.danielsson.us.com
-    mem: 8
-    cpu: 8
-    disk_size: 200
 
 fedora_vms:
   - name: testfedora
@@ -55,10 +42,6 @@ ubuntu_vms:
     mem: 4
     cpu: 4
     disk_size: 100
-  - name: onedev
-    fqdn: lab.danielsson.us.com
-    mem: 2
-    cpu: 2
   - name: testubuntu
     fqdn: lab.danielsson.us.com
     mem: 2

@@ -22,7 +22,7 @@ resource "esxi_guest" "{{ each.name }}" {
   {% endif %}
   clone_from_vm      = "{{ each.clone_vm | default('rhel8_template') }}"
   network_interfaces {
-    virtual_network = "{{ each.network | default('VM Network') }}"
+    virtual_network  = "{{ each.network | default('VM Network') }}"
   }
   guestinfo = {
     "userdata.encoding" = "gzip+base64"

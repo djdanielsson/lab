@@ -7,9 +7,10 @@
     gpgkey: https://rpm.releases.hashicorp.com/gpg
     gpgcheck: true
     enabled: true
+  when: ansible_distribution is match('RedHat')
 
 - name: Install vault
-  ansible.builtin.yum:
+  ansible.builtin.package:
     name: vault, python3-cryptography
     state: latest
   notify:
