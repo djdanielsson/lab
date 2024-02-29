@@ -14,9 +14,9 @@
   notify:
     - Terraform init
 
-- name: Copy "{{ item.name }}"
+- name: Generate cloud templates from list
   ansible.builtin.template:
-    src: "{{ item.name }}"
+    src: "{{ item.name }}.j2"
     dest: "/tmp/terraform/{{ item.name }}"
   loop: "{{ cloud_files }}"
 
