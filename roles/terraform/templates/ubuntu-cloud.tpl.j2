@@ -1,34 +1,49 @@
 #cloud-config
 
+growpart:
+  mode: auto
+  devices: ["/"]
+  ignore_growroot_disabled: false
+
 #  Install stuff
 packages:
- - ntp
- - ntpdate
- - curl
+  - ntp
+  - ntpdate
+  - curl
+  - vim
+  - cockpit
+  - git
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
 
 # Override ntp with chrony configuration on Ubuntu
 ntp:
   enabled: true
   ntp_client: chrony  # Uses cloud-init default chrony configuration
 
-# Configure ubuntu user security
+# Configure redhat user security
 users:
   - name: ubuntu
     sudo: [ "ALL=(ALL) NOPASSWD:ALL" ]
     ssh-authorized-keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHMX/bgx/CQ5TzLcRDhDAjKBfuCIaawE3YrzuXosbzRA ddaniels@fedora.thinkpad
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDDTmIFsTdrmJ+m8KODI+lCV9hmat4LppiNEgFF3Dk9P welcome@builder.lab.danielsson.us.com
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBYgv7n91v9deBAMJ+eGLh1uFUal44NfCHb1loXx88jn ddaniels@ddaniels-mac
   - name: root
     ssh-authorized-keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHMX/bgx/CQ5TzLcRDhDAjKBfuCIaawE3YrzuXosbzRA ddaniels@fedora.thinkpad
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDDTmIFsTdrmJ+m8KODI+lCV9hmat4LppiNEgFF3Dk9P welcome@builder.lab.danielsson.us.com
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBYgv7n91v9deBAMJ+eGLh1uFUal44NfCHb1loXx88jn ddaniels@ddaniels-mac
 
 #  Change some default passwords
 chpasswd:
   list: |
-    root:ubuntu1
-    ubuntu:ubuntu2
+    root:{{ root_pass | default('ubuntu1') }}
+    ubuntu:{{ user_pass | default('ubuntu2') }}
   expire: False
+
+hostname: ${HOSTNAME}
 
 #  Write to a log file (useing variables set in terraform) and show the ip on the console.
 runcmd:

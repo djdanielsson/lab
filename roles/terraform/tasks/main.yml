@@ -15,7 +15,7 @@
     - Terraform init
 
 - name: Copy "{{ item.name }}"
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: "{{ item.name }}"
     dest: "/tmp/terraform/{{ item.name }}"
   loop: "{{ cloud_files }}"
