@@ -33,7 +33,7 @@ fedora_vms:
     cpu: 2
 
 ubuntu_vms:
-  - name: portainer
+  - name: k3s
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
