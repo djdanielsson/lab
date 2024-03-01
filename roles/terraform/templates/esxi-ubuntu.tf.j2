@@ -20,7 +20,7 @@ resource "esxi_guest" "{{ each.name }}" {
   {% if each.notes is defined -%}
   notes              = "{{ each.notes }}"
   {% endif %}
-  ovf_source         = "https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-amd64.ova"
+  ovf_source         = "https://cloud-images.ubuntu.com/releases/mantic/release/ubuntu-23.10-server-cloudimg-amd64.ova"
   network_interfaces {
     virtual_network  = "{{ each.network | default('VM Network') }}"
   }
