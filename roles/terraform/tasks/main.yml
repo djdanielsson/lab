@@ -17,13 +17,13 @@
 - name: Generate cloud templates from list
   ansible.builtin.template:
     src: "{{ item.name }}.j2"
-    dest: "/tmp/terraform/{{ item.name }}"
+    dest: /tmp/terraform/{{ item.name }}
   loop: "{{ cloud_files }}"
 
 - name: Generate templates from list
   ansible.builtin.template:
     src: "{{ virt_manager }}-{{ item.src }}"
-    dest: "/tmp/terraform/{{ virt_manager }}-{{ item.dest }}"
+    dest: /tmp/terraform/{{ virt_manager }}-{{ item.dest }}
   loop: "{{ terraform_templates }}"
 
 - name: Flush handlers
@@ -39,4 +39,3 @@
     path: /tmp/terraform
     state: absent
   when: cleanup | default(false)
-...

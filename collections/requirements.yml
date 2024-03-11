@@ -9,4 +9,3 @@ collections:
     type: git
     source: https://github.com/djdanielsson/ansible-esxi.git
   - name: redhat.satellite_operations
-...

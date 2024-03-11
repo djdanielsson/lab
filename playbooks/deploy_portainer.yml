@@ -18,11 +18,10 @@
         image: portainer/portainer-ce:latest
         state: started
         restart: true
-        restart_policy: "always"
+        restart_policy: always
         ports:
-          - "8000:8000"
-          - "9443:9443"
+          - 8000:8000
+          - 9443:9443
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
           - portainer_data:/data
-...

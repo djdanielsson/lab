@@ -4,4 +4,3 @@
   ansible.builtin.file:
     path: "{{ tmp_dir.path }}"
     state: absent
-...

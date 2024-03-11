@@ -10,4 +10,3 @@
   cloud.terraform.terraform:
     project_path: /tmp/terraform
     state: present
-...

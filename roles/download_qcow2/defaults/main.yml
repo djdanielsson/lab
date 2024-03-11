@@ -3,4 +3,3 @@
 rhel_version: 8.8
 arch: x86_64 # or aarch64
 setup_down_dest_dir: /tmp/
-...
