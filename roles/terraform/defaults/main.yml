@@ -5,22 +5,22 @@ rhel8_vms:
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    notes: "automationcontroller"
+    notes: automationcontroller
   - name: hub1
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    notes: "automationhub"
+    notes: automationhub
   - name: aapdb
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 2
-    notes: "database"
+    notes: database
   - name: eda
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    notes: "automationedacontroller"
+    notes: automationedacontroller
   - name: testrhel8
     fqdn: lab.danielsson.us.com
     mem: 2
@@ -71,4 +71,3 @@ cloud_files:
   - name: fedora-cloud.tpl
   - name: rhel9-cloud.tpl
   - name: rhel8-cloud.tpl
-...

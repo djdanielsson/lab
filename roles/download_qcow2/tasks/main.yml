@@ -17,7 +17,7 @@
     method: GET
     return_content: true
     headers:
-      Authorization: "Bearer {{ __r_login.json.access_token }}"
+      Authorization: Bearer {{ __r_login.json.access_token }}
   register: __r_images_output
 
 - name: Simplify the list of possible downloads
@@ -29,7 +29,6 @@
     url: "{{ item.downloadHref }}"
     dest: "{{ setup_down_dest_dir }}/{{ item.filename }}"
     headers:
-      Authorization: "Bearer {{ __r_login.json.access_token }}"
+      Authorization: Bearer {{ __r_login.json.access_token }}
   when: image_name is match(item.filename)
   loop: "{{ __cf_images }}"
-...

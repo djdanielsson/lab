@@ -10,4 +10,3 @@
     - name: Run kasm role
       ansible.builtin.include_role:
         name: kasm
-...

@@ -12,7 +12,7 @@
 
 - name: Create dictionary
   ansible.builtin.set_fact:
-    vm_ids:  "{{ vm_ids | default({}) | combine({((item | split(':'))[0]): ((item | split(':'))[1])}) }}"
+    vm_ids: "{{ vm_ids | default({}) | combine({((item | split(':'))[0]): ((item | split(':'))[1])}) }}"
   loop: "{{ __new_lines }}"
   vars:
     __new_lines: "{{ r_vm_ids.stdout | split('\n') }}"
@@ -28,25 +28,28 @@
     # verbosity: 2
 
 - name: Get vm ids
-  ansible.builtin.shell: "vim-cmd vmsvc/snapshot.get {{ vm_ids[vm_name] }} | grep -i 'Snapshot Name|Snapshot Id' | awk '{ print $3 }'"
+  ansible.builtin.shell: vim-cmd vmsvc/snapshot.get {{ vm_ids[vm_name] }} | grep -i 'Snapshot Name|Snapshot Id' | awk '{ print $3 }'
   changed_when: false
   register: r_vm_snapshots_all
   when: get_all_snapshots | default(false)
 
 - name: Get snapshot by name
-  ansible.builtin.shell: "vim-cmd vmsvc/snapshot.get {{ vm_ids[vm_name] }} | grep -i -A 1 '{{ snapshot_name }}' | cut -d ':' -f 2 | grep -v '\\-\\-' | awk '{ print $1 }' | tail -1"
+  ansible.builtin.shell: vim-cmd vmsvc/snapshot.get {{ vm_ids[vm_name] }} | grep -i -A 1 '{{ snapshot_name }}' | cut -d ':' -f 2 | grep -v '\-\-' | awk '{ print $1
+    }' | tail -1
   changed_when: false
   register: r_vm_snapshots_name
   when: get_snapshot_by_name | default(false)
 
 - name: Get last snapshot
-  ansible.builtin.shell: "vim-cmd vmsvc/snapshot.get {{ vm_ids[vm_name] }} | grep -i -A 1 'Snapshot Name' | cut -d ':' -f 2 | grep -v '\\-\\-' | awk '{ print $1 }' | tail -1"
+  ansible.builtin.shell: vim-cmd vmsvc/snapshot.get {{ vm_ids[vm_name] }} | grep -i -A 1 'Snapshot Name' | cut -d ':' -f 2 | grep -v '\-\-' | awk '{ print $1 }' |
+    tail -1
   changed_when: false
   register: r_vm_snapshots_last
   when: get_last_snapshot | default(false)
 
 - name: Get first snapshot
-  ansible.builtin.shell: "vim-cmd vmsvc/snapshot.get {{ vm_ids[vm_name] }} | grep -i -A 1 'Snapshot Name' | cut -d ':' -f 2 | grep -v '\\-\\-' | awk '{ print $1 }' | head -2 | tail -1"
+  ansible.builtin.shell: vim-cmd vmsvc/snapshot.get {{ vm_ids[vm_name] }} | grep -i -A 1 'Snapshot Name' | cut -d ':' -f 2 | grep -v '\-\-' | awk '{ print $1 }' |
+    head -2 | tail -1
   changed_when: false
   register: r_vm_snapshots_first
   when: get_first_snapshot | default(false)
@@ -56,15 +59,17 @@
     msg: "{{ vm_snapshot }}"
     # verbosity: 2
   vars:
-    vm_snapshot: "{% if get_all_snapshots %}{{ r_vm_snapshots_all }}{% elif get_snapshot_by_name %}{{ r_vm_snapshots_name }}{% elif get_last_snapshot %}{{ r_vm_snapshots_last }}{% elif r_vm_snapshots_first %}{{ r_vm_snapshots_first }}{% else %}'error'{% endif %}"
+    vm_snapshot: "{% if get_all_snapshots %}{{ r_vm_snapshots_all }}{% elif get_snapshot_by_name %}{{ r_vm_snapshots_name }}{% elif get_last_snapshot %}{{ r_vm_snapshots_last
+      }}{% elif r_vm_snapshots_first %}{{ r_vm_snapshots_first }}{% else %}'error'{% endif %}"
 
 - name: Revert to snapshot {{ r_vm_snapshots }}
-  ansible.builtin.shell: "vim-cmd vmsvc/snapshot.revert {{ vm_ids[vm_name] }} {{ vm_snapshot.stdout }} suppressPowerOn"
+  ansible.builtin.shell: vim-cmd vmsvc/snapshot.revert {{ vm_ids[vm_name] }} {{ vm_snapshot.stdout }} suppressPowerOn
   changed_when: true
   register: r_revert_output
   when: revert_2_snapshot | default(false)
   vars:
-    vm_snapshot: "{% if get_all_snapshots %}{{ r_vm_snapshots_all }}{% elif get_snapshot_by_name %}{{ r_vm_snapshots_name }}{% elif get_last_snapshot %}{{ r_vm_snapshots_last }}{% elif r_vm_snapshots_first %}{{ r_vm_snapshots_first }}{% else %}'error'{% endif %}"
+    vm_snapshot: "{% if get_all_snapshots %}{{ r_vm_snapshots_all }}{% elif get_snapshot_by_name %}{{ r_vm_snapshots_name }}{% elif get_last_snapshot %}{{ r_vm_snapshots_last
+      }}{% elif r_vm_snapshots_first %}{{ r_vm_snapshots_first }}{% else %}'error'{% endif %}"
 
 - name: Printout status
   ansible.builtin.debug:
@@ -75,4 +80,3 @@
   ansible.builtin.shell: vim-cmd vmsvc/power.on {{ vm_ids[vm_name] }}
   changed_when: true
   when: power_back_on
-...
