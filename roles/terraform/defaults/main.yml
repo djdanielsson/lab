@@ -26,6 +26,12 @@ rhel8_vms:
     mem: 2
     cpu: 2
 
+rhel9_vms:
+  - name: vault
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
+
 fedora_vms:
   - name: testfedora
     fqdn: lab.danielsson.us.com
