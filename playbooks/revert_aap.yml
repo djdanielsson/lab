@@ -5,7 +5,7 @@
   tasks:
     - name: Run vmware role
       ansible.builtin.include_role:
-        name: snapshot_rollback
+        name: esxi_snapshot_rollback
       loop: "{{ vm_list }}"
       vars:
         revert_2_snapshot: true

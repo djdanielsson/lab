@@ -4,6 +4,7 @@
   ansible.builtin.file:
     path: /tmp/terraform
     state: directory
+    mode: "0755"
   notify:
     - Terraform init
 
@@ -11,6 +12,7 @@
   ansible.builtin.copy:
     src: "{{ virt_manager }}-versions.tf"
     dest: /tmp/terraform/versions.tf
+    mode: "0644"
   notify:
     - Terraform init
 
@@ -18,12 +20,14 @@
   ansible.builtin.template:
     src: "{{ item.name }}.j2"
     dest: "/tmp/terraform/{{ item.name }}"
+    mode: "0644"
   loop: "{{ cloud_files }}"
 
 - name: Generate templates from list
   ansible.builtin.template:
     src: "{{ virt_manager }}-{{ item.src }}"
     dest: "/tmp/terraform/{{ virt_manager }}-{{ item.dest }}"
+    mode: "0644"
   loop: "{{ terraform_templates }}"
 
 - name: Flush handlers

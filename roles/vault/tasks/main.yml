@@ -20,11 +20,13 @@
   ansible.builtin.template:
     src: templates/vault.hcl.j2
     dest: /etc/vault.d/config.hcl
+    mode: "0644"
 
 - name: Copy service
   ansible.builtin.copy:
     src: files/vault.service
     dest: /etc/systemd/system/vault.service
+    mode: "0755"
   notify:
     - Start vault service
 

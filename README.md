@@ -1,5 +1,9 @@
 # Lab build
 
+```console
+ansible-playbook -i inventory/inventory playbooks/revert_aap.yml --ask-vault-pass -k -u root
+```
+
 stuff to install silverblue
 
 ```console

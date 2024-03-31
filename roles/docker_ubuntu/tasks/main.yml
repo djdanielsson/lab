@@ -32,7 +32,7 @@
 
     # It seems to need whatever the gpg --dearmor -o does so cannot use get_url suppressing warning
     - name: Download gpg key
-      ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+      ansible.builtin.shell: set -o pipefail && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
       changed_when: true
       when: not r_download_key['stat']['exists'] # noqa: command-instead-of-module
 

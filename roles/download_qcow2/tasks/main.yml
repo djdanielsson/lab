@@ -30,6 +30,7 @@
     dest: "{{ setup_down_dest_dir }}/{{ item.filename }}"
     headers:
       Authorization: "Bearer {{ __r_login.json.access_token }}"
+    mode: "0644"
   when: image_name is match(item.filename)
   loop: "{{ __cf_images }}"
 ...
