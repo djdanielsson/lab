@@ -14,6 +14,5 @@
           - vm_name: controller1
           - vm_name: hub1
           - vm_name: aapdb
-          - vm_name: sso
-          - vm_name: service_catalog
+          - vm_name: eda
 ...
