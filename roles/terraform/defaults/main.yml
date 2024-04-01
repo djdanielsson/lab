@@ -25,11 +25,6 @@ rhel8_vms:
     cpu: 8
     power: off # noqa yaml[truthy]
     notes: "automationedacontroller"
-  - name: aap
-    fqdn: lab.danielsson.us.com
-    mem: 8
-    cpu: 8
-    notes: "automationedacontroller"
   - name: testrhel8
     fqdn: lab.danielsson.us.com
     mem: 2
@@ -40,6 +35,10 @@ rhel9_vms:
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
+  - name: aap
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
 
 fedora_vms:
   - name: testfedora
