@@ -5,18 +5,27 @@ rhel8_vms:
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
+    power: off # noqa yaml[truthy]
     notes: "automationcontroller"
   - name: hub1
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
+    power: off # noqa yaml[truthy]
     notes: "automationhub"
   - name: aapdb
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 2
+    power: off # noqa yaml[truthy]
     notes: "database"
   - name: eda
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+    power: off # noqa yaml[truthy]
+    notes: "automationedacontroller"
+  - name: aap
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
@@ -37,18 +46,17 @@ fedora_vms:
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
+    power: off # noqa yaml[truthy]
 
 ubuntu_vms:
   - name: portainer
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    disk_size: 100
   - name: portainer2
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    disk_size: 100
   - name: k3s
     fqdn: lab.danielsson.us.com
     mem: 8
@@ -62,7 +70,9 @@ ubuntu_vms:
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
+    power: off # noqa yaml[truthy]
   - name: testubuntu2
+    power: off # noqa yaml[truthy]
 
 terraform_templates:
   - src: ubuntu.tf.j2
