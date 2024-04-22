@@ -29,12 +29,14 @@ rhel8_vms:
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
+    power: off # noqa yaml[truthy]
 
 rhel9_vms:
   - name: vault
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
+    power: off # noqa yaml[truthy]
   - name: aap
     fqdn: lab.danielsson.us.com
     mem: 8
@@ -46,6 +48,10 @@ fedora_vms:
     mem: 2
     cpu: 2
     power: off # noqa yaml[truthy]
+  - name: k3s
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
 
 ubuntu_vms:
   - name: portainer
@@ -56,15 +62,13 @@ ubuntu_vms:
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-  - name: k3s
-    fqdn: lab.danielsson.us.com
-    mem: 8
-    cpu: 8
+    power: off # noqa yaml[truthy]
   - name: kasm
     fqdn: lab.danielsson.us.com
     mem: 4
     cpu: 4
     disk_size: 100
+    power: off # noqa yaml[truthy]
   - name: testubuntu
     fqdn: lab.danielsson.us.com
     mem: 2
