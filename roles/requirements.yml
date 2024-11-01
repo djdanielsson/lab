@@ -1,0 +1,5 @@
+---
+- name: RHEL8-CIS
+  scm: git
+  src: https://github.com/ansible-lockdown/RHEL8-CIS.git
+...
