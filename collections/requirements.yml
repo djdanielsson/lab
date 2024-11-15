@@ -8,9 +8,9 @@ collections:
   - name: community.esxi
     type: git
     source: https://github.com/djdanielsson/ansible-esxi.git
-  - name: k3s.orchestration
-    type: git
-    source: https://github.com/k3s-io/k3s-ansible.git
+  # - name: k3s.orchestration
+  #   type: git
+  #   source: https://github.com/k3s-io/k3s-ansible.git
   # - name: redhat.satellite_operations
   # - name: community.zabbix
   - name: community.general
