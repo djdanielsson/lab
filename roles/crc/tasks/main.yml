@@ -37,13 +37,11 @@
     group: root
     mode: "0755"
     remote_src: true
-  # when: crc_tarball is defined and crc_tarball.status == "success"
 
 - name: Configure CRC
   ansible.builtin.command:
     cmd: /tmp/crc-linux-{{ crc_version }}-amd64/crc config set memory 16336
   changed_when: true
-  # when: crc_tarball is defined and crc_tarball.status == "success"
   register: crc_config_result
 
 - name: Copy pull-secret
@@ -56,8 +54,8 @@
 
 - name: Start and configure CRC
   ansible.builtin.shell: /tmp/crc-linux-{{ crc_version }}-amd64/crc setup --log-level debug; /tmp/crc-linux-{{ crc_version }}-amd64/crc start --log-level debug --pull-secret-file /home/{{ ansible_user }}/pull-secret.json
+  become: false
   changed_when: true
-  # when: crc_tarball is defined and crc_tarball.status == "success"
   register: crc_start_result
 
 - name: Configure haproxy
