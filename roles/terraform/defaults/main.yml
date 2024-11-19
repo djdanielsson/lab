@@ -36,6 +36,12 @@ rhel8_vms:
     mem: 2
     cpu: 2
     power: false
+  - name: satellite
+    fqdn: lab.danielsson.us.com
+    mem: 20
+    cpu: 8
+    power: false
+    disk_size: 200
 
 rhel9_vms:
   - name: vault
