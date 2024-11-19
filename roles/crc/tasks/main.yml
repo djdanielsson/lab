@@ -73,7 +73,7 @@
     owner: root
     group: root
   vars:
-    crc_ip: "{{ r_crc_start_result.stdout | regex_replace('CRC IP: ([0-9.]+)') }}"
+    crc_ip: "{{ r_crc_ip }}"
 
 - name: Enable and start haproxy service
   ansible.builtin.service:
