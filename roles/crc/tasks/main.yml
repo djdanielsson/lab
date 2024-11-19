@@ -56,7 +56,14 @@
   ansible.builtin.shell: /tmp/crc-linux-{{ crc_version }}-amd64/crc setup --log-level debug; /tmp/crc-linux-{{ crc_version }}-amd64/crc start --log-level debug --pull-secret-file /home/{{ ansible_user }}/pull-secret.json
   become: false
   changed_when: true
-  register: crc_start_result
+  register: r_crc_start_result
+
+- name: Get CRC IP
+  ansible.builtin.command:
+    cmd: /tmp/crc-linux-{{ crc_version }}-amd64/crc ip
+  become: false
+  changed_when: true
+  register: r_crc_ip
 
 - name: Configure haproxy
   ansible.builtin.template:
@@ -66,7 +73,7 @@
     owner: root
     group: root
   vars:
-    crc_ip: "{{ crc_start_result.stdout | regex_replace('CRC IP: ([0-9.]+)') }}"
+    crc_ip: "{{ r_crc_start_result.stdout | regex_replace('CRC IP: ([0-9.]+)') }}"
 
 - name: Enable and start haproxy service
   ansible.builtin.service:
@@ -101,8 +108,8 @@
 # - name: Log in to OpenShift cluster (optional)
 #   kubernetes.core.k8s_api_login:
 #     state: present
-#     username: "{{ crc_start_result.stdout | regex_replace('CRC Username: (.+)') }}"
-#     password: "{{ crc_start_result.stdout | regex_replace('CRC Password: (.+)') }}"
+#     username: "{{ r_crc_start_result.stdout | regex_replace('CRC Username: (.+)') }}"
+#     password: "{{ r_crc_start_result.stdout | regex_replace('CRC Password: (.+)') }}"
 #     server: "https://api.{{ base_domain }}:6443"
 #   when: ansible_os_family == "RedHat" and not ansible_local
 ...
