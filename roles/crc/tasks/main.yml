@@ -75,6 +75,13 @@
   vars:
     crc_ip: "{{ r_crc_ip['stdout'] }}"
 
+- name: Allow port 6443 for HTTP traffic using SELinux
+  ansible.posix.selinux:
+    port: 6443
+    protocol: tcp
+    type: http_port_t
+    state: allow
+
 - name: Enable and start haproxy service
   ansible.builtin.service:
     name: haproxy
