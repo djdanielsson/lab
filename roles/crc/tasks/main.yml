@@ -32,10 +32,10 @@
 - name: Extract CRC
   ansible.builtin.unarchive:
     src: "{{ crc_tarball.dest }}"
-  #   dest: "/tmp"
-  #   owner: root
-  #   group: root
-  #   mode: "0755"
+    dest: "/tmp"
+    owner: root
+    group: root
+    mode: "0755"
   # when: crc_tarball is defined and crc_tarball.status == "success"
 
 - name: Configure CRC
