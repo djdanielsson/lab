@@ -55,8 +55,7 @@
     mode: "0644"
 
 - name: Start and configure CRC
-  ansible.builtin.command:
-    cmd: "/tmp/crc-linux-{{ crc_version }}-amd64/crc setup --log-level debug; /tmp/crc-linux-{{ crc_version }}-amd64/crc start --log-level debug --pull-secret-file /home/{{ ansible_user }}/pull-secret.json"
+  ansible.builtin.shell: /tmp/crc-linux-{{ crc_version }}-amd64/crc setup --log-level debug; /tmp/crc-linux-{{ crc_version }}-amd64/crc start --log-level debug --pull-secret-file /home/{{ ansible_user }}/pull-secret.json
   changed_when: true
   # when: crc_tarball is defined and crc_tarball.status == "success"
   register: crc_start_result
