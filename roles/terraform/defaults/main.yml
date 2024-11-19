@@ -51,7 +51,7 @@ rhel9_vms:
     power: false
   - name: aap
     fqdn: lab.danielsson.us.com
-    mem: 8
+    mem: 16
     cpu: 8
   - name: crc
     fqdn: lab.danielsson.us.com
