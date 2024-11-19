@@ -41,7 +41,7 @@ rhel8_vms:
     mem: 20
     cpu: 8
     power: false
-    disk_size: 200
+    disk_size: 300
 
 rhel9_vms:
   - name: vault
