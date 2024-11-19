@@ -26,7 +26,7 @@
     url: https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/crc/{{ crc_version }}/crc-linux-amd64.tar.xz
     dest: /tmp/crc.tar.xz
     mode: "0755"
-  # register: crc_tarball
+  register: crc_tarball
 
 - name: Extract CRC
   ansible.builtin.unarchive:
