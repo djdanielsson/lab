@@ -5,53 +5,54 @@ rhel8_vms:
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    power: off # noqa yaml[truthy]
+    power: false
     notes: "automationcontroller"
   - name: hub1
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    power: off # noqa yaml[truthy]
+    power: false
     notes: "automationhub"
   - name: aapdb
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 2
-    power: off # noqa yaml[truthy]
+    power: false
     notes: "database"
   - name: eda
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    power: off # noqa yaml[truthy]
+    power: false
     notes: "automationedacontroller"
   - name: testrhel8
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
-    power: off # noqa yaml[truthy]
+    power: false
 
 rhel9_vms:
   - name: vault
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
-    power: off # noqa yaml[truthy]
+    power: false
   - name: aap
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
   - name: crc
     fqdn: lab.danielsson.us.com
-    mem: 16
+    mem: 18
     cpu: 8
+    disk_size: 200
 
 fedora_vms:
   - name: testfedora
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
-    power: off # noqa yaml[truthy]
+    power: false
     #  - name: k3s
     #    fqdn: lab.danielsson.us.com
     #    mem: 8
@@ -66,20 +67,20 @@ ubuntu_vms:
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    power: off # noqa yaml[truthy]
+    power: false
   - name: kasm
     fqdn: lab.danielsson.us.com
     mem: 4
     cpu: 4
     disk_size: 100
-    power: off # noqa yaml[truthy]
+    power: false
   - name: testubuntu
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
-    power: off # noqa yaml[truthy]
+    power: false
   - name: testubuntu2
-    power: off # noqa yaml[truthy]
+    power: false
   - name: k3s
     fqdn: lab.danielsson.us.com
     mem: 8
@@ -88,17 +89,17 @@ ubuntu_vms:
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    power: off # noqa yaml[truthy]
+    power: false
   - name: k3s2
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    power: off # noqa yaml[truthy]
+    power: false
   - name: k3s3
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
-    power: off # noqa yaml[truthy]
+    power: false
 
 terraform_templates:
   - src: ubuntu.tf.j2
