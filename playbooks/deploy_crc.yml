@@ -1,0 +1,9 @@
+---
+- name: Deploy CRC
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Run crc role
+      ansible.builtin.include_role:
+        name: crc
+...
