@@ -1,0 +1,107 @@
+---
+# tasks file for crc
+- name: Enable all repositories starting with rhel-6-server
+  community.general.rhsm_repository:
+    name: rhocp-4.17-for-rhel-9-x86_64-rpms
+    state: enabled
+
+- name: Install required packages
+  ansible.builtin.package:
+    name:
+      - jq
+      - wget
+      - tar
+      - haproxy
+      - openshfit-clients
+    state: present
+
+- name: Disable and mask firewalld
+  ansible.builtin.service:
+    name: firewalld
+    state: stopped
+    enabled: false
+
+- name: Download and install CRC
+  ansible.builtin.get_url:
+    url: https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/crc/{{ crc_version }}/crc-linux-amd64.tar.xz
+    dest: /tmp/crc.tar.xz
+    mode: "0755"
+  register: crc_tarball
+
+- name: Extract CRC
+  ansible.builtin.unarchive:
+    src: "{{ crc_tarball.dest }}"
+    dest: "/tmp"
+    owner: root
+    group: root
+    mode: "0755"
+  when: crc_tarball is defined and crc_tarball.status == "success"
+
+- name: Configure CRC
+  ansible.builtin.command:
+    cmd: crc config set memory 16336
+  changed_when: true
+  when: crc_tarball is defined and crc_tarball.status == "success"
+  register: crc_config_result
+
+- name: Copy pull-secret
+  ansible.builtin.copy:
+    content: "{{ pull_secret }}"
+    dest: /home/{{ ansible_user }}/pull-secret.json
+    mode: "0644"
+
+- name: Start and configure CRC
+  ansible.builtin.command:
+    cmd: crc setup --log-level debug && crc start --log-level debug --pull-secret-file /home/{{ ansible_user }}/pull-secret.json
+  changed_when: true
+  when: crc_tarball is defined and crc_tarball.status == "success"
+  register: crc_start_result
+
+- name: Configure haproxy
+  ansible.builtin.template:
+    src: templates/haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: "0644"
+    owner: root
+    group: root
+  vars:
+    crc_ip: "{{ crc_start_result.stdout | regex_replace('CRC IP: ([0-9.]+)') }}"
+
+- name: Enable and start haproxy service
+  ansible.builtin.service:
+    name: haproxy
+    state: started
+    enabled: true
+
+- name: Set up base domain for cluster
+  ansible.builtin.set_fact:
+    base_domain: "{{ inventory_hostname | ipaddr }}.crc.danielsson.us.com"
+
+- name: Create TLS certificate and secret
+  community.crypto.x509_certificate:
+    path: /home/{{ ansible_user }}/nip.crt
+    key_path: /home/{{ ansible_user }}/nip.key
+    common_name: "{{ base_domain }}"
+    days_until_expiration: 3650
+
+- name: Wait for cluster operators to be ready
+  ansible.builtin.uri:
+    url: "http://localhost:8443/api/v1/clusteroperators"
+    status_code: 200
+  until: "'Ready' in {{ lookup('url', uri).status.phase | join(', ') }}"
+  retries: 10
+
+- name: Patch route
+  ansible.builtin.command:
+    cmd: "oc patch route/{{ base_domain }} --type json -p '[{\"op\": \"add\", \"path\": \"/spec/hostnames\", \"value\": [\"{{ base_domain }}\"]}]'"
+  changed_when: true
+  register: route_result
+
+# - name: Log in to OpenShift cluster (optional)
+#   kubernetes.core.k8s_api_login:
+#     state: present
+#     username: "{{ crc_start_result.stdout | regex_replace('CRC Username: (.+)') }}"
+#     password: "{{ crc_start_result.stdout | regex_replace('CRC Password: (.+)') }}"
+#     server: "https://api.{{ base_domain }}:6443"
+#   when: ansible_os_family == "RedHat" and not ansible_local
+...

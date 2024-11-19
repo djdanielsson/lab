@@ -1,0 +1,23 @@
+global
+    log /dev/log local0
+
+defaults
+    balance roundrobin
+    log global
+    maxconn 100
+    mode tcp
+    timeout connect 5s
+    timeout client 500s
+    timeout server 500s
+
+listen apps
+    bind 0.0.0.0:80
+    server crcvm {{ crc_ip }}:80 check
+
+listen apps_ssl
+    bind 0.0.0.0:443
+    server crcvm {{ crc_ip }}:443 check
+
+listen api
+    bind 0.0.0.0:6443
+    server crcvm {{ crc_ip }}:6443 check
