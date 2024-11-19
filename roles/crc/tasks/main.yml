@@ -12,7 +12,7 @@
       - wget
       - tar
       - haproxy
-      - openshfit-clients
+      - openshift-clients
     state: present
 
 - name: Disable and mask firewalld
