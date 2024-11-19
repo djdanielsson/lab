@@ -16,7 +16,7 @@ resource "esxi_guest" "{{ each.name }}" {
   memsize            = {{ each.mem | default(1) }}*1024
   numvcpus           = {{ each.cpu | default(1) }}
   power              = "{{ each.power | default('on') }}"
-  virthwver          = "{{ each.hwvers | default(20) }}" # Virtual Hardware Version	20 for ESXi 8
+  virthwver          = "{{ each.hwvers | default(18) }}" # Virtual Hardware Version	20 for ESXi 8
   {% if each.notes is defined -%}
   notes              = "{{ each.notes }}"
   {% endif %}

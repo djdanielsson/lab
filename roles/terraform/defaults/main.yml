@@ -41,6 +41,10 @@ rhel9_vms:
     fqdn: lab.danielsson.us.com
     mem: 8
     cpu: 8
+  - name: crc
+    fqdn: lab.danielsson.us.com
+    mem: 16
+    cpu: 8
 
 fedora_vms:
   - name: testfedora
@@ -48,10 +52,10 @@ fedora_vms:
     mem: 2
     cpu: 2
     power: off # noqa yaml[truthy]
-  - name: k3s
-    fqdn: lab.danielsson.us.com
-    mem: 8
-    cpu: 8
+    #  - name: k3s
+    #    fqdn: lab.danielsson.us.com
+    #    mem: 8
+    #    cpu: 8
 
 ubuntu_vms:
   - name: portainer
@@ -76,6 +80,25 @@ ubuntu_vms:
     power: off # noqa yaml[truthy]
   - name: testubuntu2
     power: off # noqa yaml[truthy]
+  - name: k3s
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+  - name: k3s1
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+    power: off # noqa yaml[truthy]
+  - name: k3s2
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+    power: off # noqa yaml[truthy]
+  - name: k3s3
+    fqdn: lab.danielsson.us.com
+    mem: 8
+    cpu: 8
+    power: off # noqa yaml[truthy]
 
 terraform_templates:
   - src: ubuntu.tf.j2
@@ -86,8 +109,8 @@ terraform_templates:
     dest: rhel8.tf
   - src: rhel9.tf.j2
     dest: rhel9.tf
-  - src: fedora.tf.j2
-    dest: fedora.tf
+    #  - src: fedora.tf.j2
+    #    dest: fedora.tf
 
 cloud_files:
   - name: ubuntu-cloud.tpl

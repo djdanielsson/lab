@@ -4,6 +4,7 @@
   gather_facts: true
   vars_files:
     "../vault.yml"
+  connection: local
   tasks:
     - name: Run terraform role
       ansible.builtin.include_role:
