@@ -26,22 +26,22 @@
     url: https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/crc/{{ crc_version }}/crc-linux-amd64.tar.xz
     dest: /tmp/crc.tar.xz
     mode: "0755"
-  register: crc_tarball
+  # register: crc_tarball
 
 - name: Extract CRC
   ansible.builtin.unarchive:
     src: "{{ crc_tarball.dest }}"
-    dest: "/tmp"
-    owner: root
-    group: root
-    mode: "0755"
-  when: crc_tarball is defined and crc_tarball.status == "success"
+  #   dest: "/tmp"
+  #   owner: root
+  #   group: root
+  #   mode: "0755"
+  # when: crc_tarball is defined and crc_tarball.status == "success"
 
 - name: Configure CRC
   ansible.builtin.command:
     cmd: crc config set memory 16336
   changed_when: true
-  when: crc_tarball is defined and crc_tarball.status == "success"
+  # when: crc_tarball is defined and crc_tarball.status == "success"
   register: crc_config_result
 
 - name: Copy pull-secret
@@ -54,7 +54,7 @@
   ansible.builtin.command:
     cmd: crc setup --log-level debug && crc start --log-level debug --pull-secret-file /home/{{ ansible_user }}/pull-secret.json
   changed_when: true
-  when: crc_tarball is defined and crc_tarball.status == "success"
+  # when: crc_tarball is defined and crc_tarball.status == "success"
   register: crc_start_result
 
 - name: Configure haproxy
@@ -75,7 +75,7 @@
 
 - name: Set up base domain for cluster
   ansible.builtin.set_fact:
-    base_domain: "{{ inventory_hostname | ipaddr }}.crc.danielsson.us.com"
+    base_domain: "{{ ansible_default_ipv4.address }}.{{ ansible_hostname }}"
 
 - name: Create TLS certificate and secret
   community.crypto.x509_certificate:
@@ -95,7 +95,7 @@
   ansible.builtin.command:
     cmd: "oc patch route/{{ base_domain }} --type json -p '[{\"op\": \"add\", \"path\": \"/spec/hostnames\", \"value\": [\"{{ base_domain }}\"]}]'"
   changed_when: true
-  register: route_result
+  # register: route_result
 
 # - name: Log in to OpenShift cluster (optional)
 #   kubernetes.core.k8s_api_login:
