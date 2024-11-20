@@ -89,12 +89,35 @@
   ansible.builtin.set_fact:
     base_domain: "{{ ansible_default_ipv4.address }}.{{ ansible_hostname }}"
 
-- name: Create TLS certificate and secret
-  community.crypto.x509_certificate:
-    path: /home/{{ ansible_user }}/nip.crt
-    privatekey_path: /home/{{ ansible_user }}/nip.key
-    common_name: "{{ base_domain }}"
-    provider: selfsigned
+- name: Check if tls keys already exist
+  ansible.builtin.stat:
+    path: /home/{{ ansible_user }}/nip.key
+  register: r_tls_key
+
+- name: Generate tls when they do not exist
+  when: not r_tls_key['stat']['exists']
+  block:
+    - name: Create private key (RSA, 4096 bits)
+      community.crypto.openssl_privatekey:
+        path: /home/{{ ansible_user }}/nip.key
+        mode: "0644"
+
+    - name: Create certificate signing request (CSR) for self-signed certificate
+      community.crypto.openssl_csr_pipe:
+        privatekey_path: /home/{{ ansible_user }}/nip.key
+        common_name: "{{ base_domain }}"
+        subject_alt_name:
+          - "DNS:{{ base_domain }}"
+          - "DNS:{{ ansible_hostname }}"
+      register: csr
+
+    - name: Create self-signed certificate from CSR
+      community.crypto.x509_certificate:
+        path: /home/{{ ansible_user }}/nip.crt
+        csr_content: "{{ csr.csr }}"
+        privatekey_path: "/home/{{ ansible_user }}/nip.key
+        provider: selfsigned
+        mode: "0644"
 
 - name: Wait for cluster operators to be ready
   ansible.builtin.uri:
