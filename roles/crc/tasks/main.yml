@@ -119,12 +119,12 @@
         provider: selfsigned
         mode: "0644"
 
-- name: Wait for cluster operators to be ready
-  ansible.builtin.uri:
-    url: "http://localhost:8443/api/v1/clusteroperators"
-    status_code: 200
-  until: "'Ready' in {{ lookup('url', uri).status.phase | join(', ') }}"
-  retries: 10
+# - name: Wait for cluster operators to be ready
+#   ansible.builtin.uri:
+#     url: "http://localhost:8443/api/v1/clusteroperators"
+#     status_code: 200
+#   until: "'Ready' in {{ lookup('url', uri).status.phase | join(', ') }}"
+#   retries: 10
 
 - name: Patch route
   ansible.builtin.command:
