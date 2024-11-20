@@ -11,7 +11,7 @@ resource "esxi_guest" "{{ each.name }}" {
   guest_name         = "{{ each.name }}"
   disk_store         = "{{ each.datastore | default('datastore1') }}"
   boot_disk_type     = "{{ each.disk_type | default('thin') }}"
-  boot_disk_size     = "{{ each.disk_size | default('50') }}"
+  # boot_disk_size     = "{{ each.disk_size | default('50') }}"
   guestos            = "rhel8-64"
   boot_firmware      = "efi"
   memsize            = {{ each.mem | default(1) }}*1024
