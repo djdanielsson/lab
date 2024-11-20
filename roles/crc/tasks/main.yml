@@ -92,9 +92,8 @@
 - name: Create TLS certificate and secret
   community.crypto.x509_certificate:
     path: /home/{{ ansible_user }}/nip.crt
-    key_path: /home/{{ ansible_user }}/nip.key
+    privatekey_path: /home/{{ ansible_user }}/nip.key
     common_name: "{{ base_domain }}"
-    days_until_expiration: 3650
     provider: selfsigned
 
 - name: Wait for cluster operators to be ready
