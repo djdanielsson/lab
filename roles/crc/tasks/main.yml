@@ -139,4 +139,9 @@
 #     password: "{{ r_crc_start_result.stdout | regex_replace('CRC Password: (.+)') }}"
 #     server: "https://api.{{ base_domain }}:6443"
 #   when: ansible_os_family == "RedHat" and not ansible_local
+
+- name: Get info
+  ansible.builtin.shell: set -o pipefail && crc console -ojson | jq -r '.clusterConfig.adminCredentials.username'; crc console -ojson | jq -r '.clusterConfig.adminCredentials.password'
+  changed_when: false
+  register: r_login
 ...
