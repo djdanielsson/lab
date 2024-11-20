@@ -1,0 +1,13 @@
+spec:
+  appsDomain: apps.{{BASE_DOMAIN}}
+  componentRoutes:
+  - hostname: console-openshift-console.apps.{{BASE_DOMAIN}}
+    name: console
+    namespace: openshift-console
+    servingCertKeyPairSecret:
+      name: nip-secret
+  - hostname: oauth-openshift.apps.{{BASE_DOMAIN}}
+    name: oauth-openshift
+    namespace: openshift-authentication
+    servingCertKeyPairSecret:
+      name: nip-secret
