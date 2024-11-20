@@ -133,7 +133,7 @@
 
 - name: Patch route
   ansible.builtin.command:
-    cmd: "oc patch -p \"{\"spec\": {\"host\": \"default-route-openshift-image-registry.$BASE_DOMAIN\"}}\" route default-route -n openshift-image-registry --type=merge"
+    cmd: "oc patch -p \"{\"spec\": {\"host\": \"default-route-openshift-image-registry.{{ base_domain }}\"}}\" route default-route -n openshift-image-registry --type=merge"
   changed_when: true
   # register: route_result
 
@@ -152,7 +152,7 @@
 
 - name: Patch api server
   ansible.builtin.command:
-    cmd: "oc patch apiserver cluster --type=merge -p \"{\"spec\":{\"servingCerts\": {\"namedCertificates\":[{\"names\":[\"api.${BASE_DOMAIN}\"],\"servingCertificate\": {\"name\": \"nip-secret\"}}]}}}\""
+    cmd: "oc patch apiserver cluster --type=merge -p \"{\"spec\":{\"servingCerts\": {\"namedCertificates\":[{\"names\":[\"api.{{ base_domain }}\"],\"servingCertificate\": {\"name\": \"nip-secret\"}}]}}}\""
   changed_when: true
 
 # - name: Log in to OpenShift cluster (optional)
