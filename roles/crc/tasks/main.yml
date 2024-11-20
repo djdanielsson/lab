@@ -115,7 +115,7 @@
       community.crypto.x509_certificate:
         path: /home/{{ ansible_user }}/nip.crt
         csr_content: "{{ csr.csr }}"
-        privatekey_path: "/home/{{ ansible_user }}/nip.key
+        privatekey_path: /home/{{ ansible_user }}/nip.key
         provider: selfsigned
         mode: "0644"
 
