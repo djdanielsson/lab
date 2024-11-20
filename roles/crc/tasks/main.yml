@@ -100,6 +100,8 @@
     - name: Create private key (RSA, 4096 bits)
       community.crypto.openssl_privatekey:
         path: /home/{{ ansible_user }}/nip.key
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
         mode: "0644"
 
     - name: Create certificate signing request (CSR) for self-signed certificate
@@ -118,6 +120,8 @@
         privatekey_path: /home/{{ ansible_user }}/nip.key
         provider: selfsigned
         mode: "0644"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
 
 # - name: Wait for cluster operators to be ready
 #   ansible.builtin.uri:
