@@ -95,6 +95,7 @@
     key_path: /home/{{ ansible_user }}/nip.key
     common_name: "{{ base_domain }}"
     days_until_expiration: 3650
+    provider: selfsigned
 
 - name: Wait for cluster operators to be ready
   ansible.builtin.uri:
