@@ -12,7 +12,7 @@ resource "libvirt_pool" "{{ each.name }}" {
 resource "libvirt_volume" "{{ each.name }}-tmp" {
   name   = "{{ each.name }}-tmp"
   pool   = libvirt_pool.{{ each.name }}.name
-  source = "https://cloud-images.ubuntu.com/releases/mantic/release/ubuntu-23.10-server-cloudimg-amd64.ova"
+  source = "https://cloud-images.ubuntu.com/releases/plucky/release/ubuntu-25.04-server-cloudimg-amd64.ova"
   format = "qcow2"
 }
 
