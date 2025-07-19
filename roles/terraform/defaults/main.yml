@@ -60,6 +60,13 @@ rhel9_vms:
     cpu: 8
     disk_size: 200
 
+rhel10_vms:
+  - name: rh-vpn
+    fqdn: lab.danielsson.us.com
+    mem: 2
+    cpu: 2
+    power: false
+
 fedora_vms:
   - name: testfedora
     fqdn: lab.danielsson.us.com
@@ -124,12 +131,15 @@ terraform_templates:
     dest: rhel8.tf
   - src: rhel9.tf.j2
     dest: rhel9.tf
+  - src: rhel10.tf.j2
+    dest: rhel10.tf
   - src: fedora.tf.j2
     dest: fedora.tf
 
 cloud_files:
   - name: ubuntu-cloud.tpl
   - name: fedora-cloud.tpl
+  - name: rhel10-cloud.tpl
   - name: rhel9-cloud.tpl
   - name: rhel8-cloud.tpl
 ...

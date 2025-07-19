@@ -1,0 +1,34 @@
+{% if rhel10_vms is defined %}
+{% for each in rhel10_vms %}
+data "template_file" "{{ each.name }}" {
+  template = file("rhel10-cloud.tpl")
+  vars = {
+    HOSTNAME = "{{ each.name }}.{{ each.fqdn | default('local') }}"
+  }
+}
+
+resource "esxi_guest" "{{ each.name }}" {
+  guest_name         = "{{ each.name }}"
+  disk_store         = "{{ each.datastore | default('datastore1') }}"
+  boot_disk_type     = "{{ each.disk_type | default('thin') }}"
+  # boot_disk_size     = "{{ each.disk_size | default('50') }}"
+  guestos            = "rhel10-64"
+  boot_firmware      = "efi"
+  memsize            = {{ each.mem | default(1) }}*1024
+  numvcpus           = {{ each.cpu | default(1) }}
+  power              = "{{ each.power | default('on') }}"
+  virthwver          = "{{ each.hwvers | default(18) }}" # Virtual Hardware Version	20 for ESXi 8
+  {% if each.notes is defined -%}
+  notes              = "{{ each.notes }}"
+  {% endif %}
+  clone_from_vm      = "{{ each.clone_vm | default('rhel10_template') }}"
+  network_interfaces {
+    virtual_network  = "{{ each.network | default('VM Network') }}"
+  }
+  guestinfo = {
+    "userdata.encoding" = "gzip+base64"
+    "userdata"          = base64gzip(data.template_file.{{ each.name }}.rendered)
+  }
+}
+{% endfor %}
+{% endif %}

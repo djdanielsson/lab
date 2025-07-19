@@ -1,0 +1,70 @@
+{% if rhel10_vms is defined %}
+{% for each in rhel10_vms %}
+resource "libvirt_pool" "{{ each.name }}" {
+  name       = "{{ each.name }}"
+  capacity = {{ ((each.disk_size | default(20))*1073741824) }} # *1073741824
+  # allocation = {{ ((each.disk_size | default(20))) }}
+  type       = "dir"
+  path       = "/tmp/terraform-provider-libvirt-pool-{{ each.name }}"
+}
+
+resource "libvirt_volume" "{{ each.name }}-tmp" {
+  name   = "{{ each.name }}-tmp"
+  pool   = libvirt_pool.{{ each.name }}.name
+  source = "file:///tmp/rhel-baseos-9.1-x86_64-kvm.qcow2" # run download_qcow2 role to auto download this
+  format = "qcow2"
+}
+
+resource "libvirt_volume" "{{ each.name }}-qcow2" {
+  name   = "{{ each.name }}-qcow2"
+  pool   = libvirt_pool.{{ each.name }}.name
+  base_volume_id = libvirt_volume.{{ each.name }}-tmp.id
+  size   = {{ ((each.disk_size | default(20))*1073741824) }} # *1073741824
+}
+
+data "template_file" "{{ each.name }}" {
+  template = file("${path.module}/rhel10-cloud.tpl")
+  vars = {
+    HOSTNAME = "{{ each.name }}.{{ each.fqdn | default('local') }}"
+  }
+}
+
+# https://github.com/dmacvicar/terraform-provider-libvirt/blob/master/website/docs/r/cloudinit.html.markdown
+resource "libvirt_cloudinit_disk" "{{ each.name }}" {
+  name           = "{{ each.name }}.iso"
+  user_data      = data.template_file.{{ each.name }}.rendered
+  pool           = libvirt_pool.{{ each.name }}.name
+}
+
+# Create the machine
+resource "libvirt_domain" "{{ each.name }}" {
+  name   = "{{ each.name }}"
+  memory = {{ ((each.mem | default(1))*1024) }}
+  vcpu   = {{ each.cpu | default(1) }}
+
+  cloudinit = libvirt_cloudinit_disk.{{ each.name }}.id
+  network_interface {
+    network_name = "{{ each.network | default('default') }}"
+  }
+  # IMPORTANT: this is a known bug on cloud images, since they expect a console we need to pass it https://bugs.launchpad.net/cloud-images/+bug/1573095
+  console {
+    type        = "pty"
+    target_port = "0"
+    target_type = "serial"
+  }
+  console {
+    type        = "pty"
+    target_type = "virtio"
+    target_port = "1"
+  }
+  disk {
+    volume_id = libvirt_volume.{{ each.name }}-qcow2.id
+  }
+  graphics {
+    type        = "spice"
+    listen_type = "address"
+    autoport    = true
+  }
+}
+{% endfor %}
+{% endif %}
