@@ -59,13 +59,14 @@ rhel9_vms:
     mem: 18
     cpu: 8
     disk_size: 200
+    power: false
 
 rhel10_vms:
   - name: rh-vpn
     fqdn: lab.danielsson.us.com
     mem: 2
     cpu: 2
-    power: false
+    # power: false
 
 fedora_vms:
   - name: testfedora
