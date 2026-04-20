@@ -1,3 +1,5 @@
+permissions:
+  contents: read
 ---
 name: Ansible Lint # feel free to pick your own name
 on: [push]
@@ -8,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
 
       - name: Add cloud and galaxy tokens
         run: echo -e "${{ secrets.galaxy_token }}" >> ansible.cfg
